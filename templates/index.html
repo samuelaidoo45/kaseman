@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Loan Processing </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+    <!-- <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon"> -->
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}"
+        rel="stylesheet" />
+    <!-- Include the SheetJS library in your HTML head section -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ url_for('static',filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <!-- <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet"> -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a href="index.html" class="navbar-brand mx-4 mb-3">
+                    <h4 class="text-primary">Loan Returns App</h4>
+                </a>
+                <!-- User Profile Section -->
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="{{ url_for('static',filename='img/krblogoBig.png') }}" alt="" style="width: 40px; height: 40px;">
+                        <div
+                            class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+                        </div>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="mb-0">KRB-PLC</h6>
+                        <span></span>
+                    </div>
+                </div>
+                <!-- Navigation Links -->
+                <div class="navbar-nav w-100">
+                    <a href="{{ url_for('loan_classification.loan_classification') }}" class="nav-item nav-link"><i class="fa fa-chart-pie me-2"></i>Loan
+                        Classification</a>
+                    <a href="returns-management.html" class="nav-item nav-link"><i
+                            class="fa fa-chart-line me-2"></i>Returns Management</a>
+                    <a href="reports-analytics.html" class="nav-item nav-link"><i
+                            class="fa fa-chart-bar me-2"></i>Reports & Analytics</a>
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Data Upload Section -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light text-center rounded p-4">
+                    <h6 class="mb-4">Upload Loan Datas</h6>
+                    <form id="data-upload-form" enctype="multipart/form-data" method="post">
+                        <div class="mb-3">
+                            <label for="loan-data-file" class="form-label">Choose a CSV file:</label>
+                            <input type="file" class="form-control" name="loan-data-file" id="loan-data-file"
+                                accept=".csv">
+                        </div>
+                    </form>
+                    <!-- Add this button to your HTML -->
+                    <button id="process-button" class="btn btn-primary">Process and Calculate</button>
+                </div>
+                <!-- Add this container to your HTML where you want to display results -->
+                <div id="result-container"></div>
+
+            </div>
+
+            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        </div>
+        <!-- Content End -->
+    </div>
+
+    <div id="result-container"></div>
+
+    <!-- Add this script after your HTML content -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+
+    <!-- Modify your existing script -->
+    <script>
+        // Function to handle file input change
+        document.getElementById("loan-data-file").addEventListener("change", function (event) {
+            var file = event.target.files[0];
+            Papa.parse(file, {
+                header: true,
+                dynamicTyping: true,
+                complete: function (results) {
+                    // This will hold the parsed data
+                    var data = results.data;
+
+                    // Group data based on the value at index 5 (Product Name)
+                    var groupedData = {};
+                    data.forEach(function (record) {
+                        var productName = record["Product Name"];
+                        if (!groupedData[productName]) {
+                            groupedData[productName] = [];
+                        }
+                        groupedData[productName].push(record);
+                    });
+
+                    // Call a function to display the data in a table
+                    console.log(groupedData);
+                    displayGroupedDataInTable(groupedData);
+                }
+            });
+        });
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="{{ url_for('static', filename='lib/chart/chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{{ url_for('static',filename='js/main.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Group Loans by Product Name</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* body {
+        font-family: "Open Sans", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px;
+        background-color: #f5f7fa;
+        color: #333;
+      } */
+
+      table {
+        border-collapse: collapse;
+        margin-top: 20px;
+        width: 80%;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid #dcdfe6;
+        padding: 10px 12px;
+      }
+
+      th {
+        background-color: #ebedf0;
+        font-weight: 600;
+      }
+
+      td {
+        background-color: #ffffff;
+      }
+
+      tfoot td {
+        font-weight: 600;
+        background-color: #f9fafc;
+      }
+
+      .upload-btn-wrapper {
+        margin-bottom: 20px;
+      }
+
+      .btn {
+        border: none;
+        color: white;
+        background-color: #3498db;
+        padding: 10px 20px;
+        /* border-radius: 5px; */
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .btn:hover {
+        background-color: #2980b9;
+      }
+
+      body {
+    font-family: 'Open Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+    height: 100vh;
+    padding: 50px;
+    background-color: #f5f7fa;
+    color: #333;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+
+
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    padding: 50px 20px;
+    background-color: #f5f7fa;
+    color: #333;
+}
+
+.upload-btn-wrapper {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-align: center;
+    z-index: 10;  /* Ensure it's above other elements */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: left;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+
+
+    </style>
+  </head>
+
+  <body>
+    <h1>Loan Classification by Agencies Level</h1>
+
+    <div class="upload-btn-wrapper">
+      <button class="btn">Upload a CSV file</button>
+      <input type="file" id="csvFileInput" />
+    </div>
+
+    <table id="loanTable">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Current (Up to 30 days)</th>
+          <th>OLEM (31 to 90 days)</th>
+          <th>SUB-STAND (91 to 180 days)</th>
+          <th>DOUTFUL (181 to 360 days)</th>
+          <th>LOSS (Over 360 days)</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows will be populated here -->
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Subtotal</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <script>
+      var gGroupedData = {};
+
+      document
+        .getElementById("csvFileInput")
+        .addEventListener("change", function (event) {
+          var file = event.target.files[0];
+          Papa.parse(file, {
+            complete: function (results) {
+              var data = results.data;
+              data.shift();
+              var groupedData = {};
+              data.forEach(function (record) {
+                var productName = record[5];
+                var loanClassification = classifyLoan(new Date(record[7]));
+
+                if (!groupedData[productName]) {
+                  groupedData[productName] = {};
+                }
+                if (!groupedData[productName][loanClassification]) {
+                  groupedData[productName][loanClassification] = {
+                    Commitment: 0.0,
+                    Principal: 0.0,
+                    Count: 0,
+                  };
+                }
+
+                groupedData[productName][loanClassification].Commitment +=
+                  parseFloat(record[13].replace(",", ""));
+                groupedData[productName][loanClassification].Principal +=
+                  parseFloat(record[14].replace(",", ""));
+                groupedData[productName][loanClassification].Count += 1;
+              });
+
+              gGroupedData = groupedData;
+              populateTable();
+              console.log(groupedData);
+            },
+          });
+
+          function classifyLoan(openingDate) {
+            var daysOutstanding =
+              (new Date() - openingDate) / (1000 * 60 * 60 * 24);
+
+            if (daysOutstanding <= 30) {
+              return "Current (Up to 30 days)";
+            } else if (daysOutstanding <= 90) {
+              return "31 to 90 days";
+            } else if (daysOutstanding <= 180) {
+              return "91 to 180 days";
+            } else if (daysOutstanding <= 360) {
+              return "181 to 360 days";
+            } else {
+              return "Over 360 days";
+            }
+          }
+
+          function populateTable() {
+            var tbody = document
+              .getElementById("loanTable")
+              .getElementsByTagName("tbody")[0];
+            var tfoot = document
+              .getElementById("loanTable")
+              .getElementsByTagName("tfoot")[0];
+
+            var subtotals = {
+              "Current (Up to 30 days)": 0.0,
+              "31 to 90 days": 0.0,
+              "91 to 180 days": 0.0,
+              "181 to 360 days": 0.0,
+              "Over 360 days": 0.0,
+            };
+
+            for (var productName in gGroupedData) {
+              var row = tbody.insertRow();
+              row.insertCell(0).innerHTML = productName;
+
+              var classifications = [
+                "Current (Up to 30 days)",
+                "31 to 90 days",
+                "91 to 180 days",
+                "181 to 360 days",
+                "Over 360 days",
+              ];
+
+              var rowTotal = 0;
+
+              classifications.forEach(function (classification) {
+                var cell = row.insertCell();
+                if (
+                  gGroupedData[productName][classification] &&
+                  !isNaN(gGroupedData[productName][classification].Commitment)
+                ) {
+                  cell.innerHTML =
+                    gGroupedData[productName][
+                      classification
+                    ].Commitment.toFixed(2);
+                  rowTotal +=
+                    gGroupedData[productName][classification].Commitment;
+                  subtotals[classification] +=
+                    gGroupedData[productName][classification].Commitment;
+                } else {
+                  cell.innerHTML = "0.00";
+                }
+              });
+
+              // Add total for the row, and check if it's a number
+              row.insertCell().innerHTML = !isNaN(rowTotal)
+                ? rowTotal.toFixed(2)
+                : "0.00";
+            }
+
+            // Add subtotals to the tfoot
+            var totalSubtotal = 0;
+            classifications.forEach(function (classification) {
+              var cell = tfoot.rows[0].insertCell();
+              if (!isNaN(subtotals[classification])) {
+                cell.innerHTML = subtotals[classification].toFixed(2);
+                totalSubtotal += subtotals[classification];
+              } else {
+                cell.innerHTML = "0.00";
+              }
+            });
+            // Add total for the subtotal row, and check if it's a number
+            tfoot.rows[0].insertCell().innerHTML = !isNaN(totalSubtotal)
+              ? totalSubtotal.toFixed(2)
+              : "0.00";
+          }
+
+         
+        });
+    </script>
+  </body>
+</html>
+
