@@ -54,12 +54,13 @@
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h4 class="text-primary">Loan Returns App</h4>
+                    <h4 class="text-primary">Kase</h4>
                 </a>
                 <!-- User Profile Section -->
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="{{ url_for('static',filename='img/krblogoBig.png') }}" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="{{ url_for('static',filename='img/krblogoBig.png') }}" alt=""
+                            style="width: 40px; height: 40px;">
                         <div
                             class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                         </div>
@@ -71,11 +72,12 @@
                 </div>
                 <!-- Navigation Links -->
                 <div class="navbar-nav w-100">
-                    <a href="{{ url_for('loan_classification.loan_classification') }}" class="nav-item nav-link"><i class="fa fa-chart-pie me-2"></i>Loan
+                    <a href="{{ url_for('loan_classification.loan_classification') }}" class="nav-item nav-link"><i
+                            class="fa fa-chart-pie me-2"></i>Loan
                         Classification</a>
-                    <a href="returns-management.html" class="nav-item nav-link"><i
+                    <a href="{{ url_for('returns.returns') }}" class="nav-item nav-link"><i
                             class="fa fa-chart-line me-2"></i>Returns Management</a>
-                    <a href="reports-analytics.html" class="nav-item nav-link"><i
+                    <a href="{{ url_for('analytics.analytics') }}" class="nav-item nav-link"><i
                             class="fa fa-chart-bar me-2"></i>Reports & Analytics</a>
                 </div>
             </nav>
@@ -85,9 +87,9 @@
         <!-- Content Start -->
         <div class="content">
             <!-- Data Upload Section -->
-            <div class="container-fluid pt-4 px-4">
+            <!-- <div class="container-fluid pt-4 px-4">
                 <div class="bg-light text-center rounded p-4">
-                    <h6 class="mb-4">Upload Loan Datas</h6>
+                     <h6 class="mb-4">Upload Loan Datas</h6>
                     <form id="data-upload-form" enctype="multipart/form-data" method="post">
                         <div class="mb-3">
                             <label for="loan-data-file" class="form-label">Choose a CSV file:</label>
@@ -95,11 +97,263 @@
                                 accept=".csv">
                         </div>
                     </form>
-                    <!-- Add this button to your HTML -->
-                    <button id="process-button" class="btn btn-primary">Process and Calculate</button>
+                    <button id="process-button" class="btn btn-primary">Process and Calculate</button> 
+
+
+
                 </div>
-                <!-- Add this container to your HTML where you want to display results -->
                 <div id="result-container"></div>
+            </div> -->
+
+            <div class="container-fluid">
+                <div class="container-fluid">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title fw-semibold mb-4">Loan Classification</h5>
+                            <div class="card">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="exampleInputEmail1" class="form-label">Loan Classification
+                                                Name</label>
+                                            <input type="text" class="form-control" id="exampleInputEmail1"
+                                                aria-describedby="emailHelp">
+                                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleInputPassword1" class="form-label">Loan Classification
+                                                Description</label>
+                                            <input type="text" class="form-control" id="exampleInputPassword1">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <br>
+                            <br>
+
+
+                            <div class="card w-100">
+                                <div class="card-body p-4">
+                                  <h5 class="card-title fw-semibold mb-4">Loan Classification Records </h5>
+                                  <div class="table-responsive">
+                                    <table class="table text-nowrap mb-0 align-middle">
+                                      <thead class="text-dark fs-4">
+                                        <tr>
+                                          <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Id</h6>
+                                          </th>
+                                          <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Loan Classification Name</h6>
+                                          </th>
+                                          <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Loan Classification Description</h6>
+                                          </th>
+                                          <!-- <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Priority</h6>
+                                          </th> -->
+                                          <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Action</h6>
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">1</h6></td>
+                                          <td class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-1">Classification of loan</h6>
+                                            <span class="fw-normal">May 2022</span>                          
+                                        </td>
+                                        <td class="border-bottom-0">
+                                          <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
+                                        </td>
+                                          <!-- <td class="border-bottom-0">
+                                            <div class="d-flex align-items-center gap-2">
+                                              <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
+                                            </div>
+                                          </td> -->
+                                          <td class="border-bottom-0">
+                                            <button class="btn-primary">Upload Files</button>
+                                          </td>
+                                        </tr> 
+                                        <tr>
+                                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">2</h6></td>
+                                          <td class="border-bottom-0">
+                                              <h6 class="fw-semibold mb-1">Classification of loan</h6>
+                                              <span class="fw-normal">June 2022</span>                          
+                                          </td>
+                                          <td class="border-bottom-0">
+                                            <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
+                                          </td>
+                                          <!-- <td class="border-bottom-0">
+                                            <div class="d-flex align-items-center gap-2">
+                                              <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
+                                            </div>
+                                          </td> -->
+                                          <td class="border-bottom-0">
+                                            <button class="btn-primary">Upload Files</button>
+                                          </td>
+                                        </tr> 
+                                        <tr>
+                                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">3</h6></td>
+                                          <td class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-1">Classification of loan</h6>
+                                            <span class="fw-normal">July 2022</span>                          
+                                        </td>
+                                        <td class="border-bottom-0">
+                                          <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
+                                        </td>
+                                          <!-- <td class="border-bottom-0">
+                                            <div class="d-flex align-items-center gap-2">
+                                              <span class="badge bg-danger rounded-3 fw-semibold">High</span>
+                                            </div>
+                                          </td> -->
+                                          <td class="border-bottom-0">
+                                            <!-- <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6> -->
+                                            <button class="btn-primary">Upload Files</button>
+                                          </td>
+                                        </tr>      
+                                        <tr>
+                                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">4</h6></td>
+                                          <td class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-1">Classification of loan</h6>
+                                            <span class="fw-normal">August 2022</span>                          
+                                        </td>
+                                        <td class="border-bottom-0">
+                                          <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
+                                        </td>
+                                          <!-- <td class="border-bottom-0">
+                                            <div class="d-flex align-items-center gap-2">
+                                              <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
+                                            </div>
+                                          </td> -->
+                                          <td class="border-bottom-0">
+                                            <button class="btn-primary">Upload Files</button>
+                                          </td>
+                                        </tr>                       
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-lg-8 d-flex align-items-stretch"> -->
+                    <!-- <div class="card w-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-semibold mb-4">Recent Transactions</h5>
+                            <div class="table-responsive">
+                                <table class="table text-nowrap mb-0 align-middle">
+                                    <thead class="text-dark fs-4">
+                                        <tr>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Id</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Assigned</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Name</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Priority</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Budget</h6>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">1</h6>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-1">Sunil Joshi</h6>
+                                                <span class="fw-normal">Web Designer</span>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <p class="mb-0 fw-normal">Elite Admin</p>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
+                                                </div>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0 fs-4">$3.9</h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">2</h6>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-1">Andrew McDownland</h6>
+                                                <span class="fw-normal">Project Manager</span>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <p class="mb-0 fw-normal">Real Homes WP Theme</p>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
+                                                </div>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0 fs-4">$24.5k</h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">3</h6>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-1">Christopher Jamil</h6>
+                                                <span class="fw-normal">Project Manager</span>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <p class="mb-0 fw-normal">MedicalPro WP Theme</p>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="badge bg-danger rounded-3 fw-semibold">High</span>
+                                                </div>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">4</h6>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-1">Nirav Joshi</h6>
+                                                <span class="fw-normal">Frontend Engineer</span>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <p class="mb-0 fw-normal">Hosting Press HTML</p>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
+                                                </div>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0 fs-4">$2.4k</h6>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- </div> -->
+                </div>
 
             </div>
 
