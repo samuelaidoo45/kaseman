@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="{{ url_for('static',filename='img/favicon.ico') }}" rel="icon">
     <!-- <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon"> -->
 
     <!-- Google Web Fonts -->
@@ -53,7 +53,7 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
+                <a href="{{ url_for('main.index') }}" class="navbar-brand mx-4 mb-3">
                     <h4 class="text-primary">Kase</h4>
                 </a>
                 <!-- User Profile Section -->
@@ -72,13 +72,14 @@
                 </div>
                 <!-- Navigation Links -->
                 <div class="navbar-nav w-100">
-                    <a href="{{ url_for('loan_classification.loan_classification') }}" class="nav-item nav-link"><i
+                    <!-- <a href="{{ url_for('analytics.analytics') }}" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Dashboard/a> -->
+
+                    <a href="{{ url_for('main.index') }}" class="nav-item nav-link"><i
                             class="fa fa-chart-pie me-2"></i>Loans
-                        </a>
+                    </a>
                     <a href="{{ url_for('returns.returns') }}" class="nav-item nav-link"><i
                             class="fa fa-chart-line me-2"></i>Advances</a>
-                    <a href="{{ url_for('analytics.analytics') }}" class="nav-item nav-link"><i
-                            class="fa fa-chart-bar me-2"></i>Reports & Analytics</a>
                 </div>
             </nav>
         </div>
@@ -112,18 +113,18 @@
                             <h5 class="card-title fw-semibold mb-4">Loan Classification</h5>
                             <div class="card">
                                 <div class="card-body">
-                                    <form>
+                                    <form method="post" action="{{ url_for('loan_classification.create_loan_classification') }}">
                                         <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Loan Classification
+                                            <label for="loanClassName" class="form-label">Loan Classification
                                                 Name</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1"
-                                                aria-describedby="emailHelp">
+                                            <input type="text" class="form-control" id="loanClassName"
+                                                aria-describedby="loanClassNameHelp">
                                             <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                                         </div>
                                         <div class="mb-3">
-                                            <label for="exampleInputPassword1" class="form-label">Loan Classification
+                                            <label for="loanClassDesc" class="form-label">Loan Classification
                                                 Description</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1">
+                                            <input type="text" class="form-control" id="loanClassDesc">
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -134,225 +135,102 @@
                             <br>
                             <br>
 
-
                             <div class="card w-100">
                                 <div class="card-body p-4">
-                                  <h5 class="card-title fw-semibold mb-4">Loan Classification Records </h5>
-                                  <div class="table-responsive">
-                                    <table class="table text-nowrap mb-0 align-middle">
-                                      <thead class="text-dark fs-4">
-                                        <tr>
-                                          <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Id</h6>
-                                          </th>
-                                          <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Loan Classification Name</h6>
-                                          </th>
-                                          <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Loan Classification Description</h6>
-                                          </th>
-                                          <!-- <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Priority</h6>
-                                          </th> -->
-                                          <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Action</h6>
-                                          </th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr>
-                                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">1</h6></td>
-                                          <td class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-1">Classification of loan</h6>
-                                            <span class="fw-normal">May 2022</span>                          
-                                        </td>
-                                        <td class="border-bottom-0">
-                                          <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
-                                        </td>
-                                          <!-- <td class="border-bottom-0">
-                                            <div class="d-flex align-items-center gap-2">
-                                              <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
-                                            </div>
-                                          </td> -->
-                                          <td class="border-bottom-0">
-                                            <button class="btn-primary">Upload Files</button>
-                                          </td>
-                                        </tr> 
-                                        <tr>
-                                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">2</h6></td>
-                                          <td class="border-bottom-0">
-                                              <h6 class="fw-semibold mb-1">Classification of loan</h6>
-                                              <span class="fw-normal">June 2022</span>                          
-                                          </td>
-                                          <td class="border-bottom-0">
-                                            <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
-                                          </td>
-                                          <!-- <td class="border-bottom-0">
-                                            <div class="d-flex align-items-center gap-2">
-                                              <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
-                                            </div>
-                                          </td> -->
-                                          <td class="border-bottom-0">
-                                            <button class="btn-primary">Upload Files</button>
-                                          </td>
-                                        </tr> 
-                                        <tr>
-                                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">3</h6></td>
-                                          <td class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-1">Classification of loan</h6>
-                                            <span class="fw-normal">July 2022</span>                          
-                                        </td>
-                                        <td class="border-bottom-0">
-                                          <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
-                                        </td>
-                                          <!-- <td class="border-bottom-0">
-                                            <div class="d-flex align-items-center gap-2">
-                                              <span class="badge bg-danger rounded-3 fw-semibold">High</span>
-                                            </div>
-                                          </td> -->
-                                          <td class="border-bottom-0">
-                                            <!-- <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6> -->
-                                            <button class="btn-primary">Upload Files</button>
-                                          </td>
-                                        </tr>      
-                                        <tr>
-                                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">4</h6></td>
-                                          <td class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-1">Classification of loan</h6>
-                                            <span class="fw-normal">August 2022</span>                          
-                                        </td>
-                                        <td class="border-bottom-0">
-                                          <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
-                                        </td>
-                                          <!-- <td class="border-bottom-0">
-                                            <div class="d-flex align-items-center gap-2">
-                                              <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
-                                            </div>
-                                          </td> -->
-                                          <td class="border-bottom-0">
-                                            <button class="btn-primary">Upload Files</button>
-                                          </td>
-                                        </tr>                       
-                                      </tbody>
-                                    </table>
-                                  </div>
+                                    <h5 class="card-title fw-semibold mb-4">Loan Classification Records </h5>
+                                    <div class="table-responsive">
+                                        <table class="table text-nowrap mb-0 align-middle">
+                                            <thead class="text-dark fs-4">
+                                                <tr>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Id</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Loan Classification Name</h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Loan Classification Description
+                                                        </h6>
+                                                    </th>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Action</h6>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">1</h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-1">Classification of loan</h6>
+                                                        <span class="fw-normal">May 2022</span>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <button class="btn btn-primary">Upload Files</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">2</h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-1">Classification of loan</h6>
+                                                        <span class="fw-normal">June 2022</span>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
+                                                    </td>
+
+                                                    <td class="border-bottom-0">
+                                                        <button class="btn btn-primary">Upload Files</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">3</h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-1">Classification of loan</h6>
+                                                        <span class="fw-normal">July 2022</span>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
+                                                    </td>
+
+                                                    <td class="border-bottom-0">
+                                                        <!-- <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6> -->
+                                                        <button class="btn btn-primary">Upload Files</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">4</h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-1">Classification of loan</h6>
+                                                        <span class="fw-normal">August 2022</span>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
+                                                    </td>
+
+                                                    <td class="border-bottom-0">
+                                                        <button class="btn btn-primary">Upload Files</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                              </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- <div class="col-lg-8 d-flex align-items-stretch"> -->
-                    <!-- <div class="card w-100">
-                        <div class="card-body p-4">
-                            <h5 class="card-title fw-semibold mb-4">Recent Transactions</h5>
-                            <div class="table-responsive">
-                                <table class="table text-nowrap mb-0 align-middle">
-                                    <thead class="text-dark fs-4">
-                                        <tr>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Id</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Assigned</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Priority</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Budget</h6>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Sunil Joshi</h6>
-                                                <span class="fw-normal">Web Designer</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">Elite Admin</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$3.9</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">2</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Andrew McDownland</h6>
-                                                <span class="fw-normal">Project Manager</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">Real Homes WP Theme</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$24.5k</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">3</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Christopher Jamil</h6>
-                                                <span class="fw-normal">Project Manager</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">MedicalPro WP Theme</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-danger rounded-3 fw-semibold">High</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">4</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Nirav Joshi</h6>
-                                                <span class="fw-normal">Frontend Engineer</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">Hosting Press HTML</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$2.4k</h6>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- </div> -->
+
                 </div>
 
             </div>
@@ -370,43 +248,35 @@
 
     <!-- Modify your existing script -->
     <script>
+        "use strict";
+
         // Function to handle file input change
-        document.getElementById("loan-data-file").addEventListener("change", function (event) {
-            var file = event.target.files[0];
-            Papa.parse(file, {
-                header: true,
-                dynamicTyping: true,
-                complete: function (results) {
-                    // This will hold the parsed data
-                    var data = results.data;
+        // document.getElementById("loan-data-file").addEventListener("change", function (event) {
+        //     var file = event.target.files[0];
+        //     Papa.parse(file, {
+        //         header: true,
+        //         dynamicTyping: true,
+        //         complete: function (results) {
+        //             // This will hold the parsed data
+        //             var data = results.data;
 
-                    // Group data based on the value at index 5 (Product Name)
-                    var groupedData = {};
-                    data.forEach(function (record) {
-                        var productName = record["Product Name"];
-                        if (!groupedData[productName]) {
-                            groupedData[productName] = [];
-                        }
-                        groupedData[productName].push(record);
-                    });
+        //             // Group data based on the value at index 5 (Product Name)
+        //             var groupedData = {};
+        //             data.forEach(function (record) {
+        //                 var productName = record["Product Name"];
+        //                 if (!groupedData[productName]) {
+        //                     groupedData[productName] = [];
+        //                 }
+        //                 groupedData[productName].push(record);
+        //             });
 
-                    // Call a function to display the data in a table
-                    console.log(groupedData);
-                    displayGroupedDataInTable(groupedData);
-                }
-            });
-        });
-
-
+        //             // Call a function to display the data in a table
+        //             // console.log(groupedData);
+        //             displayGroupedDataInTable(groupedData);
+        //         }
+        //     });
+        // });
     </script>
-
-
-
-
-
-
-
-
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
