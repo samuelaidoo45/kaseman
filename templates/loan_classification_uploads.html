@@ -37,6 +37,25 @@
     <!-- <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet"> -->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 
+    <style>
+        table{
+            width: 100%;
+            table-layout: fixed;
+        }
+        /* table th td{
+            width: 33.33%;
+        } */
+
+        th td{
+            overflow: hidden;
+        }
+
+        table th:nth-child(3),
+        table td:nth-child(3) {
+            text-align:center;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -158,17 +177,17 @@
                                         <table class="table table-auto text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">
                                                 <tr>
-                                                    <th class="border-bottom-0">
+                                                    <th class="border-bottom-0 col">
                                                         <h6 class="fw-semibold mb-0">#</h6>
                                                     </th>
-                                                    <th class="border-bottom-0">
+                                                    <th class="border-bottom-0 col">
                                                         <h6 class="fw-semibold mb-0">Bank branch</h6>
                                                     </th>
-                                                    <th class="border-bottom-0">
+                                                    <!-- <th class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0">
                                                         </h6>
-                                                    </th>
-                                                    <th class="border-bottom-0">
+                                                    </th> -->
+                                                    <th class="border-bottom-0 col">
                                                         <h6 class="fw-semibold mb-0">Action</h6>
                                                     </th>
                                                 </tr>
@@ -176,16 +195,16 @@
 
                                             <tbody>
                                                 <tr>
-                                                    <td class="border-bottom-0">
+                                                    <td class="border-bottom-0 col">
                                                         <h6 class="fw-semibold mb-0">1</h6>
                                                     </td>
-                                                    <td class="border-bottom-0">
+                                                    <td class="border-bottom-0 col">
                                                         <h6 class="fw-semibold mb-1">Brekum</h6>
                                                     </td>
-                                                    <td class="border-bottom-0">
+                                                    <!-- <td class="border-bottom-0">
                                                         <p class="mb-0 fw-normal"></p>
-                                                    </td>
-                                                    <td class="border-bottom-0">
+                                                    </td> -->
+                                                    <td class="border-bottom-0 col">
                                                         <a  class="btn btn-primary">View File</a>
                                                     </td>
                                                 </tr>
