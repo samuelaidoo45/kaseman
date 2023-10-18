@@ -112,14 +112,13 @@
                         <div class="card-body">
                             <h5 class="card-title fw-semibold mb-4">Loan Classification</h5>
                             <div class="card">
-                                <div class="card-body">
-                                    <form method="post" action="{{ url_for('loan_classification.create_loan_classification') }}">
+                                <div class="card-body pull-left">
+                                    <!-- <form method="post" action="{{ url_for('loan_classification.create_loan_classification') }}">
                                         <div class="mb-3">
                                             <label for="loanClassName" class="form-label">Loan Classification
                                                 Name</label>
                                             <input type="text" class="form-control" name="loanClassName" id="loanClassName"
                                                 aria-describedby="loanClassNameHelp">
-                                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                                         </div>
                                         <div class="mb-3">
                                             <label for="loanClassDesc"  class="form-label">Loan Classification
@@ -128,7 +127,24 @@
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form>
+                                    </form> -->
+                                    <!-- Your form or content here -->
+
+
+                                    <!-- Buttons moved to the left -->
+                                    <div class="d-flex justify-content-between">
+                                        <a href="{{ url_for('main.index')}}" class="btn btn-primary">Back</a>
+                                        <div>
+                                            <!-- Empty div for spacing -->
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-primary mr-2">Upload</button>
+                                            <button class="btn btn-primary">Process</button>
+                                        </div>
+                                    </div>
+                                    
+                                    
+
                                 </div>
                             </div>
 
@@ -137,19 +153,19 @@
 
                             <div class="card w-100">
                                 <div class="card-body p-4">
-                                    <h5 class="card-title fw-semibold mb-4">Loan Classification Records </h5>
+                                    <h5 class="card-title fw-semibold mb-4">Loan Classification Files </h5>
                                     <div class="table-responsive">
-                                        <table class="table text-nowrap mb-0 align-middle">
+                                        <table class="table table-auto text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">
                                                 <tr>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Id</h6>
+                                                        <h6 class="fw-semibold mb-0">#</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Loan Classification Name</h6>
+                                                        <h6 class="fw-semibold mb-0">Bank branch</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Loan Classification Description
+                                                        <h6 class="fw-semibold mb-0">
                                                         </h6>
                                                     </th>
                                                     <th class="border-bottom-0">
@@ -157,80 +173,29 @@
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <!-- <tbody>
+
+                                            <tbody>
                                                 <tr>
                                                     <td class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0">1</h6>
                                                     </td>
                                                     <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-1">Classification of loan</h6>
-                                                        <span class="fw-normal">May 2022</span>
+                                                        <h6 class="fw-semibold mb-1">Brekum</h6>
                                                     </td>
                                                     <td class="border-bottom-0">
-                                                        <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
+                                                        <p class="mb-0 fw-normal"></p>
                                                     </td>
                                                     <td class="border-bottom-0">
-                                                        <button class="btn btn-primary">Upload Files</button>
+                                                        <a  class="btn btn-primary">View File</a>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">2</h6>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-1">Classification of loan</h6>
-                                                        <span class="fw-normal">June 2022</span>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
-                                                    </td>
-
-                                                    <td class="border-bottom-0">
-                                                        <button class="btn btn-primary">Upload Files</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">3</h6>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-1">Classification of loan</h6>
-                                                        <span class="fw-normal">July 2022</span>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
-                                                    </td>
-
-                                                    <td class="border-bottom-0">
-                                                        <button class="btn btn-primary">Upload Files</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">4</h6>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-1">Classification of loan</h6>
-                                                        <span class="fw-normal">August 2022</span>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <p class="mb-0 fw-normal">lorem ipsum lorem ipsum</p>
-                                                    </td>
-
-                                                    <td class="border-bottom-0">
-                                                        <button class="btn btn-primary">Upload Files</button>
-                                                    </td>
-                                                </tr>
-                                            </tbody> -->
-                                            <tbody>
-                                                {% for classification in loan_classes %}
+                                                <!-- {% for classification in loan_classes %}
                                                 <tr>
                                                     <td class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0">{{ classification.id }}</h6>
                                                     </td>
                                                     <td class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-1">{{ classification.loan_classification_name }}</h6>
-                                                        <!-- <span class="fw-normal">{{ classification.date }}</span> -->
                                                     </td>
                                                     <td class="border-bottom-0">
                                                         <p class="mb-0 fw-normal">{{ classification.loan_classification_desc }}</p>
@@ -239,7 +204,7 @@
                                                         <a href="{{ url_for('loan_classification.loan_classification_uploads') }}" class="btn btn-primary">Upload Files</a>
                                                     </td>
                                                 </tr>
-                                                {% endfor %}
+                                                {% endfor %} -->
                                             </tbody>
                                         </table>
                                     </div>
