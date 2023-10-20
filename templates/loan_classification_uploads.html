@@ -142,7 +142,7 @@
                                     </div>
                             <div class="card">
                                 <div class="card-body ">
-                                    <form method="post" action="{{ url_for('loan_classification.loan_file_upload') }}">
+                                    <form method="post" action="{{ url_for('loan_classification.loan_file_upload') }}" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <label for="loanClassName" class="form-label">Branch Name</label>
                                             <input type="text" class="form-control" name="branchName" id="branchName"
@@ -210,20 +210,35 @@
                                             </thead>
 
                                             <tbody>
+                                                {% for classification in loan_class_uploads %}
                                                 <tr>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">{{ classification.id }}</h6>
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-1">{{ classification.branch_name }}</h6>
+                                                        <!-- <span class="fw-normal">{{ classification.date }}</span> -->
+                                                    </td>
+                                                    <td class="border-bottom-0">
+                                                        <a  class="btn btn-primary">View Records</a>
+
+                                                    </td>
+                
+                                                </tr>
+                                                {% endfor %}
+
+                                                <!-- <tr>
                                                     <td class="border-bottom-0 col">
                                                         <h6 class="fw-semibold mb-0">1</h6>
                                                     </td>
                                                     <td class="border-bottom-0 col">
                                                         <h6 class="fw-semibold mb-1">Brekum</h6>
                                                     </td>
-                                                    <!-- <td class="border-bottom-0">
-                                                        <p class="mb-0 fw-normal"></p>
-                                                    </td> -->
+
                                                     <td class="border-bottom-0 col">
                                                         <a  class="btn btn-primary">View File</a>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
                                                 <!-- {% for classification in loan_classes %}
                                                 <tr>
                                                     <td class="border-bottom-0">

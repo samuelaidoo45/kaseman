@@ -17,6 +17,4 @@ def index():
             'loan_classification_desc': classification.loan_classification_desc,
         })
     
-    # loan_classes = jsonify(serialized_loan_classifications)
-
     return render_template('index.html',loan_classes=serialized_loan_classifications)

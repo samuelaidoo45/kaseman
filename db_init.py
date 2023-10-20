@@ -1,6 +1,5 @@
 from app import create_app, db
-from models import loan_classification
-
+from models import loan_classification, loan_classification_files, loan_classification_items
 
 app = create_app()
 
