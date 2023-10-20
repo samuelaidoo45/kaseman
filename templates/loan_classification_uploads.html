@@ -129,41 +129,47 @@
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title fw-semibold mb-4">Loan Classification</h5>
+                             <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h5 class="card-title fw-semibold mb-4">Loan Classification</h5>
+                                        </div>
+                                        <div>
+                                            <a href="{{ url_for('main.index')}}" class="btn btn-primary">Back</a>
+
+                                            <!-- <button class="btn btn-primary mr-2">Upload</button>
+                                            <button class="btn btn-primary">Process</button> -->
+                                        </div>
+                                    </div>
                             <div class="card">
-                                <div class="card-body pull-left">
-                                    <!-- <form method="post" action="{{ url_for('loan_classification.create_loan_classification') }}">
+                                <div class="card-body ">
+                                    <form method="post" action="{{ url_for('loan_classification.loan_file_upload') }}">
                                         <div class="mb-3">
-                                            <label for="loanClassName" class="form-label">Loan Classification
-                                                Name</label>
-                                            <input type="text" class="form-control" name="loanClassName" id="loanClassName"
+                                            <label for="loanClassName" class="form-label">Branch Name</label>
+                                            <input type="text" class="form-control" name="branchName" id="branchName"
                                                 aria-describedby="loanClassNameHelp">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="loanClassDesc"  class="form-label">Loan Classification
-                                                Description</label>
-                                            <input type="text" class="form-control" name="loanClassDesc" id="loanClassDesc">
+                                            <label for="loanClassDesc"  class="form-label">CSV file</label>
+                                            <input type="file" class="form-control" name="loanFile" id="loanFile">
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form> -->
+                                    </form>
                                     <!-- Your form or content here -->
 
 
                                     <!-- Buttons moved to the left -->
-                                    <div class="d-flex justify-content-between">
+                                    <!-- <div class="d-flex justify-content-between">
                                         <a href="{{ url_for('main.index')}}" class="btn btn-primary">Back</a>
                                         <div>
-                                            <!-- Empty div for spacing -->
                                         </div>
                                         <div>
                                             <button class="btn btn-primary mr-2">Upload</button>
                                             <button class="btn btn-primary">Process</button>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     
                                     
-
                                 </div>
                             </div>
 
@@ -172,7 +178,17 @@
 
                             <div class="card w-100">
                                 <div class="card-body p-4">
-                                    <h5 class="card-title fw-semibold mb-4">Loan Classification Files </h5>
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h5 class="card-title fw-semibold mb-4">Loan Classification Files </h5>
+                                        </div>
+                                        <div>
+                                            <a  class="btn btn-primary">Calculate classification</a>
+
+                                            <!-- <button class="btn btn-primary mr-2">Upload</button>
+                                            <button class="btn btn-primary">Process</button> -->
+                                        </div>
+                                    </div>
                                     <div class="table-responsive">
                                         <table class="table table-auto text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">

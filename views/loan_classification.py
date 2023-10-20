@@ -13,6 +13,15 @@ def loan_classification():
 @bp.route('/loan_classification_uploads')
 def loan_classification_uploads():
     return render_template('loan_classification_uploads.html')
+
+@bp.route('/loan_file_upload', methods=['POST'])
+def loan_file_upload():
+    branchName = request.form.get('branchName')
+    loanFile = request.form.get('loanFile')
+
+    print(loanFile)
+
+    return branchName
     
 @bp.route('/create_loan_classification',methods=['POST'])
 def create_loan_classification():
