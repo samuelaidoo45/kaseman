@@ -84,7 +84,16 @@ def loan_file_upload():
     db.session.add(new_loan_class_file)
     db.session.commit()
 
-    return branchName
+    loan_classification_uploads = LoanClassificationFiles.query.all()  # Retrieve all loan classifications from the database
+    
+    serialized_loan_classification_uploads = []
+    for classification in loan_classification_uploads:
+        serialized_loan_classification_uploads.append({
+            'id': classification.id,
+            'branch_name': classification.branch_name,
+        })
+    
+    return render_template('loan_classification_uploads.html',loan_class_uploads=serialized_loan_classification_uploads)
     
 @bp.route('/create_loan_classification',methods=['POST'])
 def create_loan_classification():
