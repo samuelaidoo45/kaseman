@@ -34,47 +34,20 @@ def loan_file_upload():
     loanFile = request.files.get('loanFile')
     filename = loanFile.filename
 
-    print(loanFile.filename)
+    # print(loanFile.filename)
     # Check if a file was uploaded
     if filename == '':
         return 'No file uploaded!'
 
     # Extract data from the CSV
     dataframe = pd.read_csv(loanFile)
-    print(dataframe)
+    # print(dataframe)
 
     #save loan class items
-    # loanClassificationItems = [
-    #     {
-    #         "loan_class_file_id": "LCFID_" + str(i),
-    #         "arrangement": "Arrangement_" + str(i),
-    #         "application_id": "AppID_" + str(i),
-    #         "company_branch": "Branch_" + str(i),
-    #         "account": "Account_" + str(i),
-    #         "officer": "Officer_" + str(i),
-    #         "product_name": "Product_" + str(i),
-    #         "customer": "CustomerID_" + str(i),
-    #         "customer_name": "Customer_" + str(i),
-    #         "opening_date": "2023-01-" + str(i%28+1),  # Just to ensure we don't get an invalid date like 2023-01-30
-    #         "first_pay_date": "2023-02-" + str(i%28+1),
-    #         "maturity_date": "2023-03-" + str(i%28+1),
-    #         "term": str(i),
-    #         "ccy": "USD",
-    #         "commitment": str(i*1000),
-    #         "principal": str(i*1000 + 500),
-    #         "due_date": "2023-04-" + str(i%28+1),
-    #         "overdue": str(i*50),
-    #         "resch_id": "ReschID_" + str(i),
-    #         "status": "Active" if i%2 == 0 else "Inactive"
-    #     }
-    #     for i in range(10)  # creating 10 dummy records
-    # ]
-
     loanClassificationItems = []
 
     for index, row in dataframe.iterrows():
-        print("Index:",index)
-        print(row);
+
         item = {
             "loan_class_file_id": index,
             # "arrangement": row[''],
@@ -98,7 +71,7 @@ def loan_file_upload():
             # "status": row['Status']
         }
 
-    loanClassificationItems.append(item)
+        loanClassificationItems.append(item)
 
     print(loanClassificationItems)
 

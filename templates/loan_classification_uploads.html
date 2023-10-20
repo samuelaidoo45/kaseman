@@ -145,8 +145,20 @@
                                     <form method="post" action="{{ url_for('loan_classification.loan_file_upload') }}" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <label for="loanClassName" class="form-label">Branch Name</label>
-                                            <input type="text" class="form-control" name="branchName" id="branchName"
-                                                aria-describedby="loanClassNameHelp">
+                                            <!-- <input type="text" class="form-control" name="branchName" id="branchName"
+                                                aria-describedby="branchNameHelp"> -->
+                                            <select class="form-control" name="branchName" id="branchName" >
+                                                <option selected disabled>--Select--</option>
+                                                <option value="GH5540015">Berekum</option>
+                                                <option value="GH5540018">Sunyani</option>
+                                                <option value="GH5540016">Doobo</option>
+                                                <option value="GH5540012">Debiso</option>
+                                                <option value="GH5540014">Dormaa</option>
+                                                <option value="GH5540020">Adamsu</option>
+                                                <option value="GH554003">Osei Kwadwotum</option>
+                                                <option value="GH55400">Yawmatwa</option>
+                                                <option value="GH554007">Kaase</option>
+                                            </select>
                                         </div>
                                         <div class="mb-3">
                                             <label for="loanClassDesc"  class="form-label">CSV file</label>
@@ -156,7 +168,6 @@
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </form>
                                     <!-- Your form or content here -->
-
 
                                     <!-- Buttons moved to the left -->
                                     <!-- <div class="d-flex justify-content-between">
@@ -168,7 +179,6 @@
                                             <button class="btn btn-primary">Process</button>
                                         </div>
                                     </div> -->
-                                    
                                     
                                 </div>
                             </div>
@@ -227,34 +237,6 @@
                                                 </tr>
                                                 {% endfor %}
 
-                                                <!-- <tr>
-                                                    <td class="border-bottom-0 col">
-                                                        <h6 class="fw-semibold mb-0">1</h6>
-                                                    </td>
-                                                    <td class="border-bottom-0 col">
-                                                        <h6 class="fw-semibold mb-1">Brekum</h6>
-                                                    </td>
-
-                                                    <td class="border-bottom-0 col">
-                                                        <a  class="btn btn-primary">View File</a>
-                                                    </td>
-                                                </tr> -->
-                                                <!-- {% for classification in loan_classes %}
-                                                <tr>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">{{ classification.id }}</h6>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-1">{{ classification.loan_classification_name }}</h6>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <p class="mb-0 fw-normal">{{ classification.loan_classification_desc }}</p>
-                                                    </td>
-                                                    <td class="border-bottom-0">
-                                                        <a href="{{ url_for('loan_classification.loan_classification_uploads') }}" class="btn btn-primary">Upload Files</a>
-                                                    </td>
-                                                </tr>
-                                                {% endfor %} -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -262,7 +244,6 @@
                             </div>
                         </div>
                     </div>
-
 
                 </div>
 
