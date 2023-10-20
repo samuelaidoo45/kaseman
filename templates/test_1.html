@@ -207,6 +207,7 @@ h1 {
                 if (!groupedData[productName]) {
                   groupedData[productName] = {};
                 }
+                
                 if (!groupedData[productName][loanClassification]) {
                   groupedData[productName][loanClassification] = {
                     Commitment: 0.0,
@@ -316,8 +317,6 @@ h1 {
               ? totalSubtotal.toFixed(2)
               : "0.00";
           }
-
-         
         });
     </script>
   </body>

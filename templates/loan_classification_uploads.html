@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Loan Processing </title>
+    <title>KRB - PLC </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -142,7 +142,7 @@
                                     </div>
                             <div class="card">
                                 <div class="card-body ">
-                                    <form method="post" action="{{ url_for('loan_classification.loan_file_upload') }}" enctype="multipart/form-data">
+                                    <form method="post" action="{{ url_for('loan_classification.loan_file_upload',id=loan_class_id) }}" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <label for="loanClassName" class="form-label">Branch Name</label>
                                             <!-- <input type="text" class="form-control" name="branchName" id="branchName"
@@ -232,7 +232,7 @@
                                                 {% for classification in loan_class_uploads %}
                                                 <tr>
                                                     <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">{{ classification.id }}</h6>
+                                                        <h6 class="fw-semibold mb-0">{{ loop.index }}</h6>
                                                     </td>
                                                     <td class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-1">{{ classification.branch_name }}</h6>

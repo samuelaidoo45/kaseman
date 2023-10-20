@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Loan Processing </title>
+    <title>KRB - PLC </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -36,6 +36,25 @@
     <!-- Template Stylesheet -->
     <!-- <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet"> -->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+    <style>
+        table{
+            width: 100%;
+            table-layout: fixed;
+        }
+        /* table th td{
+            width: 33.33%;
+        } */
+
+        th td{
+            overflow: hidden;
+        }
+
+        table th:nth-child(3),
+        table td:nth-child(3) {
+            text-align:right;
+        }
+    </style>
 
 </head>
 
@@ -236,7 +255,7 @@
                                                         <p class="mb-0 fw-normal">{{ classification.loan_classification_desc }}</p>
                                                     </td> -->
                                                     <td class="border-bottom-0">
-                                                        <a href="{{ url_for('loan_classification.loan_classification_uploads') }}" class="btn btn-primary">Upload Files</a>
+                                                        <a href="{{ url_for('loan_classification.loan_classification_uploads', id=classification.id ) }}" class="btn btn-primary">Upload Files</a>
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
