@@ -219,7 +219,7 @@ def loan_classification_total(id):
 
     # return branches_data
 
-    return render_template('loan_classification_total.html', branches_data=branches_data)
+    return render_template('loan_classification_total.html', branches_data=branches_data,id=id)
 
 # def loan_classification_total(id):
 
