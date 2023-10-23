@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>KRB - PLC </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="{{ url_for('static',filename='img/favicon.ico') }}" rel="icon">
+    <!-- <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon"> -->
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}"
+        rel="stylesheet" />
+    <!-- Include the SheetJS library in your HTML head section -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ url_for('static',filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <!-- <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet"> -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+    <!-- <style>
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        /* table th td{
+            width: 33.33%;
+        } */
+
+        th td {
+            overflow: hidden;
+        }
+
+        table th:nth-child(3),
+        table td:nth-child(3) {
+            text-align: right;
+        }
+    </style> -->
+
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a href="{{ url_for('main.index') }}" class="navbar-brand mx-4 mb-3">
+                    <h4 class="text-primary">Kase</h4>
+                </a>
+                <!-- User Profile Section -->
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="{{ url_for('static',filename='img/krblogoBig.png') }}" alt=""
+                            style="width: 40px; height: 40px;">
+                        <div
+                            class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+                        </div>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="mb-0">KRB-PLC</h6>
+                        <span></span>
+                    </div>
+                </div>
+                <!-- Navigation Links -->
+                <div class="navbar-nav w-100">
+                    <!-- <a href="{{ url_for('analytics.analytics') }}" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Dashboard/a> -->
+
+                    <a href="{{ url_for('main.index') }}" class="nav-item nav-link"><i
+                            class="fa fa-chart-pie me-2"></i>Loans
+                    </a>
+                    <a href="{{ url_for('returns.returns') }}" class="nav-item nav-link"><i
+                            class="fa fa-chart-line me-2"></i>Advances</a>
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+        <!-- Content Start -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="container-fluid">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <div class="card">
+                                <div class="card-body">
+
+                                </div>
+                            </div> -->
+
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="card-title fw-semibold mb-4">Loan Classification Total</h5>
+                                </div>
+                                <div>
+                                    <a href="{{ url_for('loan_classification.loan_classification_uploads', id=1 )}}" class="btn btn-primary">Back</a>
+
+                                    <!-- <button class="btn btn-primary mr-2">Upload</button>
+                                    <button class="btn btn-primary">Process</button> -->
+                                </div>
+                            </div>
+
+                            <div class="card w-100">
+                                <div class="card-body p-4">
+                                    <!-- <h5 class="card-title fw-semibold mb-4">Loan Classification Totals </h5> -->
+                                    <!-- Add this after your existing HTML code -->
+
+                                    <!-- Iterate through each branch in the data -->
+                                    {% for branch_name, products in branches_data.items() %}
+                                    <h2>{{ branch_name }}</h2>
+                                    <div class="table-responsive">
+
+                                    <table class="table text-nowrap mb-0 align-middle" >
+                                        <thead class="text-dark fs-4">
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Current (Up to 30 days)</th>
+                                                <th>OLEM (31 to 90 days)</th>
+                                                <th>SUB-STAND (91 to 180 days)</th>
+                                                <th>DOUTFUL (181 to 360 days)</th>
+                                                <th>LOSS (Over 360 days)</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for product_name, classifications in products.items() %}
+                                                <tr>
+                                                    <td>{{ product_name }}</td>
+                                                    <td>{{ classifications['Current (Up to 30 days)']['Commitment'] }}</td>
+                                                    <td>{{ classifications['OLEM (31 to 90 days)']['Commitment'] }}</td>
+                                                    <td>{{ classifications['SUB-STAND (91 to 180 days)']['Commitment'] }}</td>
+                                                    <td>{{ classifications['DOUTFUL (181 to 360 days)']['Commitment'] }}</td>
+                                                    <td>{{ classifications['LOSS (Over 360 days)']['Commitment'] }}</td>
+                                                    <td>{{ 
+                                                        classifications['Current (Up to 30 days)']['Commitment'] +
+                                                        classifications['OLEM (31 to 90 days)']['Commitment'] +
+                                                        classifications['SUB-STAND (91 to 180 days)']['Commitment'] +
+                                                        classifications['DOUTFUL (181 to 360 days)']['Commitment'] +
+                                                        classifications['LOSS (Over 360 days)']['Commitment']
+                                                    }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td>Subtotal</td>
+                                                <!-- You can add the logic for calculating subtotal here if needed -->
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        </div>
+        <!-- Content End -->
+    </div>
+
+    <div id="result-container"></div>
+
+    <!-- Add this script after your HTML content -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="{{ url_for('static', filename='lib/chart/chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{{ url_for('static',filename='js/main.js') }}"></script>
+</body>
+
+</html>

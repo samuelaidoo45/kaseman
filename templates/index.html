@@ -132,22 +132,47 @@
                             <h5 class="card-title fw-semibold mb-4">Loan Classification</h5>
                             <div class="card">
                                 <div class="card-body">
-                                    <form method="post" action="{{ url_for('loan_classification.create_loan_classification') }}">
+                                    <!-- <form method="post" action="{{ url_for('loan_classification.create_loan_classification') }}">
                                         <div class="mb-3">
                                             <label for="loanClassName" class="form-label">Loan Classification
                                                 Date</label>
                                             <input type="text" class="form-control" name="loanClassName" id="loanClassName"
                                                 aria-describedby="loanClassNameHelp">
-                                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                                         </div>
-                                        <!-- <div class="mb-3">
-                                            <label for="loanClassDesc"  class="form-label">Loan Classification
-                                                Description</label>
-                                            <input type="text" class="form-control" name="loanClassDesc" id="loanClassDesc">
-                                        </div> -->
+                                    
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form> -->
 
+                                    <form method="post" action="{{ url_for('loan_classification.create_loan_classification') }}">
+                                        <div class="mb-3">
+                                            <label for="loanClassificationDate" class="form-label">Month</label>
+                                            
+                                            <!-- Month Dropdown -->
+                                            <select name="loanClassMonth" id="loanClassMonth" class="form-control mb-2">
+                                                <option value="January">January</option>
+                                                <option value="February">February</option>
+                                                <option value="March">March</option>
+                                                <option value="April">April</option>
+                                                <option value="May">May</option>
+                                                <option value="June">June</option>
+                                                <option value="July">July</option>
+                                                <option value="August">August</option>
+                                                <option value="September">September</option>
+                                                <option value="October">October</option>
+                                                <option value="November">November</option>
+                                                <option value="December">December</option>
+                                            </select>
+                                            
+
+                                            <label for="loanClassificationDate" class="form-label">Year</label>
+
+                                            <!-- Year Dropdown -->
+                                            <select name="loanClassYear" id="loanClassYear" class="form-control"></select>
+                                        </div>
+                                    
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </form>
+                                    
                                 </div>
                             </div>
 
@@ -162,7 +187,7 @@
                                             <thead class="text-dark fs-4">
                                                 <tr>
                                                     <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">Id</h6>
+                                                        <h6 class="fw-semibold mb-0">#</h6>
                                                     </th>
                                                     <th class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0">Loan Classification Date</h6>
@@ -281,6 +306,26 @@
 
     <!-- Add this script after your HTML content -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+
+    <script>
+        // Generate years dynamically for the select dropdown
+        let currentYear = new Date().getFullYear();
+        let startYear = currentYear - 10;  // Let's say 10 years before current year
+        let endYear = currentYear + 10;    // 10 years after current year
+        
+        let yearDropdown = document.getElementById("loanClassYear");
+    
+        for(let i = startYear; i <= endYear; i++) {
+            let option = document.createElement("option");
+            option.value = i;
+            option.text = i;
+            yearDropdown.appendChild(option);
+        }
+    </script>
+    
+    
+    
 
 
     <!-- Modify your existing script -->

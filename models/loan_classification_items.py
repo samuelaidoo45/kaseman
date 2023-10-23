@@ -24,24 +24,7 @@ class LoanClassificationItems(db.Model):
     status = db.Column(db.String(100), nullable=True)
 
     def __repr__(self):
-        return f'<Loan {self.id} >'
+        fields = {key: value for key, value in self.__dict__.items() if not key.startswith('_')}
+        return f"Loan({fields})"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def __repr__(self):
-        return f'<Loan {self.id} - {self.loan_classification_name} - Classification: {self.loan_classification_name}>'
 
