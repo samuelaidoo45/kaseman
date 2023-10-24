@@ -27,7 +27,20 @@ def loan_classification_uploads(id):
             'branch_name': classification.branch_name,
         })
     
-    return render_template('loan_classification_uploads.html',loan_class_uploads=serialized_loan_classification_uploads,loan_class_id=id)
+    loan_classifications = LoanClassification.query.filter_by(id=id).all()  # Retrieve all loan classifications from the database
+    
+    # serialized_loan_classifications = []
+    # for classification in loan_classifications:
+    #     serialized_loan_classifications.append({
+    #         'id': classification.id,
+    #         'loan_classification_name': classification.loan_classification_name,
+    #         'loan_classification_desc': classification.loan_classification_desc,
+    #     })
+
+    # print("Hello world")
+    # print(loan_classifications[0].loan_classification_name)
+    
+    return render_template('loan_classification_uploads.html',loan_class_uploads=serialized_loan_classification_uploads,loan_class_id=id,loan_class_date=loan_classifications[0].loan_classification_name)
 
 
 @bp.route('/loan_file_upload/<int:id>', methods=['POST'])
@@ -108,6 +121,8 @@ def loan_file_upload(id):
             'branch_name': classification.branch_name,
         })
     
+    
+    
     return render_template('loan_classification_uploads.html',loan_class_uploads=serialized_loan_classification_uploads,loan_class_id=id)
     
 @bp.route('/create_loan_classification',methods=['POST'])
@@ -166,11 +181,11 @@ def loan_classification_total(id):
 
     # Define the default classifications and their structure
     default_classifications = {
-        'Current (Up to 30 days)': {'Commitment': 0.0, 'Principal': 0.0, 'Count': 0},
-        'OLEM (31 to 90 days)': {'Commitment': 0.0, 'Principal': 0.0, 'Count': 0},
-        'SUB-STAND (91 to 180 days)': {'Commitment': 0.0, 'Principal': 0.0, 'Count': 0},
-        'DOUTFUL (181 to 360 days)': {'Commitment': 0.0, 'Principal': 0.0, 'Count': 0},
-        'LOSS (Over 360 days)': {'Commitment': 0.0, 'Principal': 0.0, 'Count': 0}
+        'Current (Up to 30 days)': {'Commitment': 0.00, 'Principal': 0.00, 'Count': 0},
+        'OLEM (31 to 90 days)': {'Commitment': 0.00, 'Principal': 0.00, 'Count': 0},
+        'SUB-STAND (91 to 180 days)': {'Commitment': 0.00, 'Principal': 0.00, 'Count': 0},
+        'DOUTFUL (181 to 360 days)': {'Commitment': 0.00, 'Principal': 0.00, 'Count': 0},
+        'LOSS (Over 360 days)': {'Commitment': 0.00, 'Principal': 0.00, 'Count': 0}
     }
 
     for classification in loan_classification_uploads:

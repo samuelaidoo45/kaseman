@@ -131,7 +131,7 @@
                         <div class="card-body">
                              <div class="d-flex justify-content-between">
                                         <div>
-                                            <h5 class="card-title fw-semibold mb-4">Loan Classification</h5>
+                                            <h5 class="card-title fw-semibold mb-4">Loan Classification, {{ loan_class_date }}</h5>
                                         </div>
                                         <div>
                                             <a href="{{ url_for('main.index')}}" class="btn btn-primary">Back</a>
@@ -142,6 +142,8 @@
                                     </div>
                             <div class="card">
                                 <div class="card-body ">
+                                    <h6 class="card-title fw-semibold mb-4">Upload Loan Files </h6>
+
                                     <form method="post" action="{{ url_for('loan_classification.loan_file_upload',id=loan_class_id) }}" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <label for="loanClassName" class="form-label">Branch Name</label>
@@ -199,7 +201,7 @@
                                 <div class="card-body p-4">
                                     <div class="d-flex justify-content-between">
                                         <div>
-                                            <h5 class="card-title fw-semibold mb-4">Loan Classification Files </h5>
+                                            <h6 class="card-title fw-semibold mb-4">Uploaded Files </h6>
                                         </div>
                                         <div>
                                             <a href="{{url_for('loan_classification.loan_classification_total',id=loan_class_id)}}"  class="btn btn-primary">Classification Totals</a>
@@ -227,7 +229,6 @@
                                                     </th>
                                                 </tr>
                                             </thead>
-
                                             <tbody>
                                                 {% for classification in loan_class_uploads %}
                                                 <tr>
@@ -244,7 +245,6 @@
                 
                                                 </tr>
                                                 {% endfor %}
-
                                             </tbody>
                                         </table>
                                     </div>
