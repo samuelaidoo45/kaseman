@@ -18,8 +18,6 @@ def loan_classification():
 
 @bp.route('/loan_classification_upload/<int:id>', methods=['GET'])
 def loan_classification_uploads(id):
-    # loan_classification_uploads = LoanClassificationFiles.query.all()  # Retrieve all loan classifications from the database
-
     loan_classification_uploads = LoanClassificationFiles.query.filter_by(loan_class_id=id).all()
     
     serialized_loan_classification_uploads = []
@@ -38,14 +36,11 @@ def loan_file_upload(id):
     loanFile = request.files.get('loanFile')
     filename = loanFile.filename
 
-    # print(loanFile.filename)
     # Check if a file was uploaded
     if filename == '':
         return 'No file uploaded!'
 
-    # Extract data from the CSV
     dataframe = pd.read_csv(loanFile)
-    # print(dataframe)
 
     last_entry = LoanClassificationFiles.query.order_by(LoanClassificationFiles.id.desc()).first()
 
@@ -57,32 +52,41 @@ def loan_file_upload(id):
     #save loan class items
     loanClassificationItems = []
 
-    print("Last index",last_index)
-
     for index, row in dataframe.iterrows():
 
         item = {
             "loan_class_file_id": last_index,
-            # "arrangement": row[''],
-            "application_id": row['Application Id'],
-            "company_branch": row['Company/Branch'],
-            "account": row['Account'],
-            "officer": row['Officer'],
-            "product_name": row['Product Name'],
-            "customer": row['Customer'],
-            "customer_name": row['Customer Name'],
-            "opening_date": row['Opening Date'],
-            "first_pay_date": row['First Pay Date'],
-            "maturity_date": row['Maturity Date'],
-            "term": row['Term'],
-            "ccy": row['Ccy'],
-            "commitment": row['Commitment'],
-            "principal": row['Principal']
-            # "due_date": row['Due Today'],
-            # "overdue": row['Overdue'],
-            # "resch_id": row['Resch Ind'],
-            # "status": row['Status']
         }
+
+        # Check if column exists before accessing its value
+        if 'Application Id' in dataframe.columns:
+            item["application_id"] = row['Application Id']
+        if 'Company/Branch' in dataframe.columns:
+            item["company_branch"] = row['Company/Branch']
+        if 'Account' in dataframe.columns:
+            item["account"] = row['Account']
+        if 'Officer' in dataframe.columns:
+            item["officer"] = row['Officer']
+        if 'Product Name' in dataframe.columns:
+            item["product_name"] = row['Product Name']
+        if 'Customer' in dataframe.columns:
+            item["customer"] = row['Customer']
+        if 'Customer Name' in dataframe.columns:
+            item["customer_name"] = row['Customer Name']
+        if 'Opening Date' in dataframe.columns:
+            item["opening_date"] = row['Opening Date']
+        if 'First Pay Date' in dataframe.columns:
+            item["first_pay_date"] = row['First Pay Date']
+        if 'Maturity Date' in dataframe.columns:
+            item["maturity_date"] = row['Maturity Date']
+        if 'Term' in dataframe.columns:
+            item["term"] = row['Term']
+        if 'Ccy' in dataframe.columns:
+            item["ccy"] = row['Ccy']
+        if 'Commitment' in dataframe.columns:
+            item["commitment"] = row['Commitment']
+        if 'Principal' in dataframe.columns:
+            item["principal"] = row['Principal']
 
         loanClassificationItems.append(item)
 
@@ -131,27 +135,6 @@ def create_loan_classification():
     
     return render_template('index.html',loan_classes=serialized_loan_classifications)
 
-# def loan_classification_total(id):
-
-#     loan_classification_uploads = LoanClassificationFiles.query.filter_by(loan_class_id=id).all()
-    
-#     serialized_loan_classification_uploads = []
-#     for classification in loan_classification_uploads:
-#         loan_class_file_id = classification.id;
-
-#         loan_classification_items = LoanClassificationItems.query.filter_by(loan_class_file_id=loan_class_file_id).all()
-
-#         serialized_loan_classification_uploads.append({
-#             'id': classification.id,
-#             'branch_name': classification.branch_name,
-#             'loan_items': loan_classification_items
-#         })
-
-
-
-#     print(serialized_loan_classification_uploads[0])
-    
-#     return "loan class total"
 
 def classify_loan(opening_date_str):
     from datetime import datetime  # Make sure you've imported datetime here
@@ -159,7 +142,6 @@ def classify_loan(opening_date_str):
     
     opening_date = datetime.strptime(opening_date_str, '%d-%b-%y').date()
 
-    
     # opening_date = datetime.strptime(opening_date_str, '%Y-%m-%d').date()
     days_outstanding = (date.today() - opening_date).days
 
@@ -215,97 +197,5 @@ def loan_classification_total(id):
             branches_data[branch_name][product_name][loan_classification]['Principal'] += float(item.principal.replace(',', ''))
             branches_data[branch_name][product_name][loan_classification]['Count'] += 1
 
-    print(branches_data)
-
-    # return branches_data
-
     return render_template('loan_classification_total.html', branches_data=branches_data,id=id)
 
-# def loan_classification_total(id):
-
-#     loan_classification_uploads = LoanClassificationFiles.query.filter_by(loan_class_id=id).all()
-
-#     branches_data = []
-
-#     for classification in loan_classification_uploads:
-#         loan_class_file_id = classification.id
-#         branch_name = classification.branch_name
-
-#         # Check if this branch is already in branches_data
-#         branch_entry = next((entry for entry in branches_data if entry["branch"] == branch_name), None)
-
-#         # If not, add a new entry for the branch
-#         if not branch_entry:
-#             branch_entry = {
-#                 "branch": branch_name,
-#                 "totals": {}
-#             }
-#             branches_data.append(branch_entry)
-
-#         grouped_data = branch_entry["totals"]
-
-#         loan_classification_items = LoanClassificationItems.query.filter_by(loan_class_file_id=loan_class_file_id).all()
-
-#         for item in loan_classification_items:
-#             product_name = item.product_name
-#             if item.opening_date is None:
-#                 continue
-
-#             loan_classification = classify_loan(item.opening_date)
-
-#             if product_name not in grouped_data:
-#                 grouped_data[product_name] = {}
-
-#             if loan_classification not in grouped_data[product_name]:
-#                 grouped_data[product_name][loan_classification] = {
-#                     'Commitment': 0.0,
-#                     'Principal': 0.0,
-#                     'Count': 0,
-#                 }
-
-#             grouped_data[product_name][loan_classification]['Commitment'] += float(item.commitment.replace(',', ''))
-#             grouped_data[product_name][loan_classification]['Principal'] += float(item.principal.replace(',', ''))
-#             grouped_data[product_name][loan_classification]['Count'] += 1
-
-#     # return branches_data
-#     return render_template('loan_classification_total.html',branches_data=branches_data)
-
-# def loan_classification_total(id):
-
-#     loan_classification_uploads = LoanClassificationFiles.query.filter_by(loan_class_id=id).all()
-    
-#     grouped_data = {}
-
-#     for classification in loan_classification_uploads:
-#         loan_class_file_id = classification.id
-
-#         loan_classification_items = LoanClassificationItems.query.filter_by(loan_class_file_id=loan_class_file_id).all()
-
-#         for item in loan_classification_items:
-#             product_name = item.product_name
-#             if item.opening_date is None:
-#                 continue
-
-#             loan_classification = classify_loan(item.opening_date)
-
-#             if product_name not in grouped_data:
-#                 grouped_data[product_name] = {}
-
-#             if loan_classification not in grouped_data[product_name]:
-#                 grouped_data[product_name][loan_classification] = {
-#                     'Commitment': 0.0,
-#                     'Principal': 0.0,
-#                     'Count': 0,
-#                 }
-
-#             grouped_data[product_name][loan_classification]['Commitment'] += float(item.commitment.replace(',', ''))
-#             grouped_data[product_name][loan_classification]['Principal'] += float(item.principal.replace(',', ''))
-#             grouped_data[product_name][loan_classification]['Count'] += 1
-
-#             # print(grouped_data)
-#     # This is just for your example to print the first record; 
-#     # you might want to modify or remove this line.
-
-#     # Here you can return the grouped_data to frontend, 
-#     # you might need to serialize it into JSON if you want to use it in a REST API.
-#     return grouped_data
