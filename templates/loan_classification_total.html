@@ -154,6 +154,7 @@
                                         <tbody>
                                             {% for product_name, classifications in products.items() %}
                                                 <tr>
+                                                    <td>{{ product_name }}</td>
                                                     <td>{{ "{:,.2f}".format(classifications['Current (Up to 30 days)']['Commitment']) }}</td>
                                                     <td>{{ "{:,.2f}".format(classifications['OLEM (31 to 90 days)']['Commitment']) }}</td>
                                                     <td>{{ "{:,.2f}".format(classifications['SUB-STAND (91 to 180 days)']['Commitment']) }}</td>
