@@ -154,18 +154,19 @@
                                         <tbody>
                                             {% for product_name, classifications in products.items() %}
                                                 <tr>
-                                                    <td>{{ product_name }}</td>
-                                                    <td>{{ classifications['Current (Up to 30 days)']['Commitment'] }}</td>
-                                                    <td>{{ classifications['OLEM (31 to 90 days)']['Commitment'] }}</td>
-                                                    <td>{{ classifications['SUB-STAND (91 to 180 days)']['Commitment'] }}</td>
-                                                    <td>{{ classifications['DOUTFUL (181 to 360 days)']['Commitment'] }}</td>
-                                                    <td>{{ classifications['LOSS (Over 360 days)']['Commitment'] }}</td>
+                                                    <td>{{ "{:,.2f}".format(classifications['Current (Up to 30 days)']['Commitment']) }}</td>
+                                                    <td>{{ "{:,.2f}".format(classifications['OLEM (31 to 90 days)']['Commitment']) }}</td>
+                                                    <td>{{ "{:,.2f}".format(classifications['SUB-STAND (91 to 180 days)']['Commitment']) }}</td>
+                                                    <td>{{ "{:,.2f}".format(classifications['DOUTFUL (181 to 360 days)']['Commitment']) }}</td>
+                                                    <td>{{ "{:,.2f}".format(classifications['LOSS (Over 360 days)']['Commitment']) }}</td>
                                                     <td>{{ 
-                                                        classifications['Current (Up to 30 days)']['Commitment'] +
-                                                        classifications['OLEM (31 to 90 days)']['Commitment'] +
-                                                        classifications['SUB-STAND (91 to 180 days)']['Commitment'] +
-                                                        classifications['DOUTFUL (181 to 360 days)']['Commitment'] +
-                                                        classifications['LOSS (Over 360 days)']['Commitment']
+                                                        "{:,.2f}".format(
+                                                            classifications['Current (Up to 30 days)']['Commitment'] +
+                                                            classifications['OLEM (31 to 90 days)']['Commitment'] +
+                                                            classifications['SUB-STAND (91 to 180 days)']['Commitment'] +
+                                                            classifications['DOUTFUL (181 to 360 days)']['Commitment'] +
+                                                            classifications['LOSS (Over 360 days)']['Commitment']
+                                                        )
                                                     }}</td>
                                                 </tr>
                                             {% endfor %}

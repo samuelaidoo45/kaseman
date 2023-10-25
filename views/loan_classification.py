@@ -212,5 +212,10 @@ def loan_classification_total(id):
             branches_data[branch_name][product_name][loan_classification]['Principal'] += float(item.principal.replace(',', ''))
             branches_data[branch_name][product_name][loan_classification]['Count'] += 1
 
+             # Round the values to 2 decimal places
+            branches_data[branch_name][product_name][loan_classification]['Commitment'] = round(branches_data[branch_name][product_name][loan_classification]['Commitment'], 2)
+            branches_data[branch_name][product_name][loan_classification]['Principal'] = round(branches_data[branch_name][product_name][loan_classification]['Principal'], 2)
+
+
     return render_template('loan_classification_total.html', branches_data=branches_data,id=id)
 
