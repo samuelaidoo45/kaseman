@@ -219,3 +219,30 @@ def loan_classification_total(id):
 
     return render_template('loan_classification_total.html', branches_data=branches_data,id=id)
 
+
+@bp.route('/delete_loan_classification/<int:id>')
+def delete_loan_classification(id):
+    # Retrieve the LoanClassification object with the given id
+    loan_classification_to_delete = LoanClassification.query.get_or_404(id)
+
+    # Delete the retrieved object from the database
+    db.session.delete(loan_classification_to_delete)
+
+    # Commit the changes
+    db.session.commit()
+
+    # Redirect the user to the index page with a success message
+    # (assuming you have a route named 'index' for the main page)
+    # flash('Loan Classification successfully deleted!', 'success')
+    # return redirect(url_for('index'))
+    loan_classifications = LoanClassification.query.all()  # Retrieve all loan classifications from the database
+    
+    serialized_loan_classifications = []
+    for classification in loan_classifications:
+        serialized_loan_classifications.append({
+            'id': classification.id,
+            'loan_classification_name': classification.loan_classification_name,
+            'loan_classification_desc': classification.loan_classification_desc,
+        })
+    
+    return render_template('index.html',loan_classes=serialized_loan_classifications)

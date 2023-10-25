@@ -135,6 +135,8 @@
                             <h5 class="card-title fw-semibold mb-4">Loan Classification</h5>
                             <div class="card">
                                 <div class="card-body">
+                                    <h5 class="card-title fw-semibold mb-4">Add Loan Classifications </h5>
+
                                     <!-- <form method="post" action="{{ url_for('loan_classification.create_loan_classification') }}">
                                         <div class="mb-3">
                                             <label for="loanClassName" class="form-label">Loan Classification
@@ -184,7 +186,7 @@
 
                             <div class="card w-100">
                                 <div class="card-body p-4">
-                                    <h5 class="card-title fw-semibold mb-4">Loan Classification Records </h5>
+                                    <h5 class="card-title fw-semibold mb-4">Loan Classifications </h5>
                                     <div class="table-responsive">
                                         <table class="table text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">
@@ -284,7 +286,7 @@
                                                     </td> -->
                                                     <td class="border-bottom-0">
                                                         <a href="{{ url_for('loan_classification.loan_classification_uploads', id=classification.id ) }}" class="btn btn-primary">Files</a>
-                                                        <a class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                                        <a href="{{ url_for('loan_classification.delete_loan_classification', id=classification.id )}}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
@@ -328,9 +330,6 @@
         }
     </script>
     
-    
-    
-
 
     <!-- Modify your existing script -->
     <script>
