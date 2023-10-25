@@ -37,6 +37,9 @@
     <!-- <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet"> -->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
     <style>
         table{
             width: 100%;
@@ -281,6 +284,7 @@
                                                     </td> -->
                                                     <td class="border-bottom-0">
                                                         <a href="{{ url_for('loan_classification.loan_classification_uploads', id=classification.id ) }}" class="btn btn-primary">Files</a>
+                                                        <a class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
