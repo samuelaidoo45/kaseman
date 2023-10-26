@@ -122,7 +122,8 @@
                                     <h5 class="card-title fw-semibold mb-4">Loan Classification Total</h5>
                                 </div>
                                 <div>
-                                    <a href="{{ url_for('loan_classification.loan_classification_uploads', id=id )}}" class="btn btn-primary">Back</a>
+                                    <a href="{{ url_for('loan_classification.loan_classification_uploads', id=id )}}"
+                                        class="btn btn-primary">Back</a>
 
                                     <!-- <button class="btn btn-primary mr-2">Upload</button>
                                     <button class="btn btn-primary">Process</button> -->
@@ -136,23 +137,58 @@
 
                                     <!-- Iterate through each branch in the data -->
                                     {% for branch_name, products in branches_data.items() %}
-                                    <h2>{{ branch_name }}</h2>
+                                    <!-- <h2>{{ branch_name }}</h2> -->
+                                               {% set current = 0.0 %}
+                                                {% set olem = 0.0 %}
+                                                {% set sub_stand = 0.0 %}
+                                                {% set doutful = 0.0 %}
+                                                {% set loss = 0.0 %}
+                                                {% set total_total = 0.0 %}
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h2 class="card-title fw-semibold mb-4">{{ branch_name }} </h2>
+                                        </div>
+                                        <div>
+                                            {% if loop.first %} {# Check if it's the first iteration of the loop #}
+                                            <a href="#" class="btn btn-primary">Print</a>
+                                            <a href="#" class="btn btn-primary">Export</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
                                     <div class="table-responsive">
 
-                                    <table class="table text-nowrap mb-0 align-middle" >
-                                        <thead class="text-dark fs-4">
-                                            <tr>
-                                                <th>Product Name</th>
-                                                <th>Current (Up to 30 days)</th>
-                                                <th>OLEM (31 to 90 days)</th>
-                                                <th>SUB-STAND (91 to 180 days)</th>
-                                                <th>DOUTFUL (181 to 360 days)</th>
-                                                <th>LOSS (Over 360 days)</th>
-                                                <th>Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for product_name, classifications in products.items() %}
+                                        <table class="table text-nowrap mb-0 align-middle">
+                                            <thead class="text-dark fs-4">
+                                                <tr>
+                                                    <th>Product Name</th>
+                                                    <th>Up to 30 days</th>
+                                                    <th>31 to 90 days</th>
+                                                    <th>91 to 180 days</th>
+                                                    <th>181 to 360 days</th>
+                                                    <th>Over 360 days</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                                {% for product_name, classifications in products.items()%}
+
+                                                {% set current = "{:,.2f}".format( current + classifications['Current (Up to 30 days)']['Commitment']) %}
+                                                
+
+                                                {% set olem = olem + classifications['OLEM (31 to 90 days)']['Commitment'] %}
+                                                {% set sub_stand = sub_stand + classifications['SUB-STAND (91 to 180 days)']['Commitment'] %}
+                                                {% set doutful = doutful + classifications['DOUTFUL (181 to 360 days)']['Commitment'] %}
+                                                {% set loss = loss + classifications['LOSS (Over 360 days)']['Commitment'] %}
+                                                {% set total_total = total_total + (
+                                                classifications['Current (Up to 30 days)']['Commitment'] +
+                                                classifications['OLEM (31 to 90 days)']['Commitment'] +
+                                                classifications['SUB-STAND (91 to 180 days)']['Commitment'] +
+                                                classifications['DOUTFUL (181 to 360 days)']['Commitment'] +
+                                                classifications['LOSS (Over 360 days)']['Commitment']
+                                                ) %}
+  
                                                 <tr>
                                                     <td>{{ product_name }}</td>
                                                     <td>{{ "{:,.2f}".format(classifications['Current (Up to 30 days)']['Commitment']) }}</td>
@@ -160,49 +196,98 @@
                                                     <td>{{ "{:,.2f}".format(classifications['SUB-STAND (91 to 180 days)']['Commitment']) }}</td>
                                                     <td>{{ "{:,.2f}".format(classifications['DOUTFUL (181 to 360 days)']['Commitment']) }}</td>
                                                     <td>{{ "{:,.2f}".format(classifications['LOSS (Over 360 days)']['Commitment']) }}</td>
-                                                    <td>{{ 
+                                                    <td>{{
                                                         "{:,.2f}".format(
-                                                            classifications['Current (Up to 30 days)']['Commitment'] +
-                                                            classifications['OLEM (31 to 90 days)']['Commitment'] +
-                                                            classifications['SUB-STAND (91 to 180 days)']['Commitment'] +
-                                                            classifications['DOUTFUL (181 to 360 days)']['Commitment'] +
-                                                            classifications['LOSS (Over 360 days)']['Commitment']
+                                                        classifications['Current (Up to 30 days)']['Commitment'] +
+                                                        classifications['OLEM (31 to 90 days)']['Commitment'] +
+                                                        classifications['SUB-STAND (91 to 180 days)']['Commitment'] +
+                                                        classifications['DOUTFUL (181 to 360 days)']['Commitment'] +
+                                                        classifications['LOSS (Over 360 days)']['Commitment']
                                                         )
-                                                    }}</td>
+                                                        }}</td>
                                                 </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                        <tfoot>
+                                                {% endfor %}
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td>Subtotal</td>
+                                                    <td>{{
+                                                        "{:,.2f}".format(current)
+                                                        }}</td>
+                                                    <td>{{
+                                                        olem
+                                                        }}</td>
+                                                    <td>{{
+                                                        sub_stand
+                                                            }}</td>
+                                                            <td>{{
+                                                                doutful
+                                                                }}</td>
+                                                            <td>{{
+                                                                loss
+                                                                }}</td>
+                                                            <td>{{
+                                                                total_total
+                                                                    }}</td>
+
+                                                    <!-- You can add the logic for calculating subtotal here if needed -->
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    {% endfor %}
+
+
+                                    <div class="table-responsive">
+                                        <!-- <table class="table text-nowrap mb-0 align-middle">
+                                            <thead class="text-dark fs-4">
+                                                <tr>
+                                                    <th>Total Loans</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>% Required</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Provision Required</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                            </tbody>
+
+                                        </table> -->
+                                        <table class="table text-nowrap mb-0 align-middle">
                                             <tr>
-                                                <td>Subtotal</td>
-                                                <!-- You can add the logic for calculating subtotal here if needed -->
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                                {% endfor %}
-
-
-                                <div class="table-responsive">
-                                    <table class="table text-nowrap mb-0 align-middle">
-                                        <thead class="text-dark fs-4">
-                                            <tr>
-                                                <th>Total Loans</th>
+                                              <td>Total Loans</td>
+                                              <td>Row 1, Column 2</td>
+                                              <td>Row 1, Column 3</td>
+                                              <td>Row 1, Column 4</td>
+                                              <td>Row 1, Column 5</td>
+                                              <td>Row 1, Column 6</td>
+                                              <td>Row 1, Column 7</td>
                                             </tr>
                                             <tr>
-                                                <th>% Required</th>
+                                              <td>Provision Required</td>
+                                              <td>Row 2, Column 2</td>
+                                              <td>Row 2, Column 3</td>
+                                              <td>Row 2, Column 4</td>
+                                              <td>Row 2, Column 5</td>
+                                              <td>Row 2, Column 6</td>
+                                              <td>Row 2, Column 7</td>
                                             </tr>
                                             <tr>
-                                                <th>Provision Required</th>
+                                              <td>%Required</td>
+                                              <td>Row 3, Column 2</td>
+                                              <td>Row 3, Column 3</td>
+                                              <td>Row 3, Column 4</td>
+                                              <td>Row 3, Column 5</td>
+                                              <td>Row 3, Column 6</td>
+                                              <td>Row 3, Column 7</td>
                                             </tr>
-                                        </thead>
-
-                                        <tbody>
-
-                                        </tbody>
-
-                                    </table>
-                                </div>
+                                          </table>
+                                          
+                                    </div>
 
                                 </div>
                             </div>
