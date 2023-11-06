@@ -100,6 +100,12 @@ def loan_file_upload(id):
             item["commitment"] = row['Commitment']
         if 'Principal' in dataframe.columns:
             item["principal"] = row['Principal']
+        if 'Due Today' in dataframe.columns:
+            item["due_date"] = row['Due Today']
+        if 'Overdue' in dataframe.columns:
+            item["overdue"] = row['Overdue']
+        if 'Status' in dataframe.columns:
+            item["status"] = row['Status']
 
         loanClassificationItems.append(item)
 
@@ -217,12 +223,38 @@ def loan_classification_total(id):
                 branches_data[branch_name][product_name] = deepcopy(default_classifications)
 
             # Aggregate data for this product and classification
-            branches_data[branch_name][product_name][loan_classification]['Commitment'] += float(item.principal.replace(',', ''))
+            if item.overdue is not None:
+                overdue_value = float(item.overdue.replace(',', ''))
+            else:
+                overdue_value = 0.0
+
+            if item.due_date is not None:
+                due_date_value = float(item.due_date.replace(',', ''))
+            else:
+                due_date_value = 0.0
+
+            if item.principal is not None:
+                principal_value = float(item.principal.replace(',', ''))
+            else:
+                principal_value = 0.0
+
+            # if loan_classification == 'DOUTFUL (181 to 360 days)':
+            #     print(overdue_value)
+            #     print(due_date_value)
+            #     print(principal_value)
+
+            # if item.status == 'Expired':
+            #     print(item.due_date)
+            #     print(item.overdue)
+
+            branches_data[branch_name][product_name][loan_classification]['Commitment'] += overdue_value + due_date_value + principal_value
+
+            # branches_data[branch_name][product_name][loan_classification]['Commitment'] += float(item.overdue) + float(item.due_date) + float(item.principal.replace(',', ''))
             branches_data[branch_name][product_name][loan_classification]['Principal'] += float(item.principal.replace(',', ''))
             branches_data[branch_name][product_name][loan_classification]['Count'] += 1
 
 
-            branches_column_data[branch_name][loan_classification] += round(float(item.principal.replace(',', '')),2)
+            branches_column_data[branch_name][loan_classification] += round((overdue_value + due_date_value + principal_value),2)
 
             # Round the values to 2 decimal places
             branches_data[branch_name][product_name][loan_classification]['Commitment'] = round(branches_data[branch_name][product_name][loan_classification]['Commitment'], 2)
