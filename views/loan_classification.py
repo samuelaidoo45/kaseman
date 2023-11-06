@@ -179,6 +179,8 @@ def loan_classification_total(id):
 
     branches_data = {}  # Dictionary to store all branches data
 
+    branches_column_data = {}
+
     # Define the default classifications and their structure
     default_classifications = {
         'Current (Up to 30 days)': {'Commitment': 0.00, 'Principal': 0.00, 'Count': 0},
@@ -193,6 +195,13 @@ def loan_classification_total(id):
 
         if branch_name not in branches_data:
             branches_data[branch_name] = {}
+            branches_column_data[branch_name] = {
+                'Current (Up to 30 days)':  0,
+                'OLEM (31 to 90 days)' : 0,
+                'SUB-STAND (91 to 180 days)':0,
+                'DOUTFUL (181 to 360 days)': 0,
+                'LOSS (Over 360 days)': 0
+            }
 
         loan_classification_items = LoanClassificationItems.query.filter_by(loan_class_file_id=classification.id).all()
 
@@ -208,18 +217,23 @@ def loan_classification_total(id):
                 branches_data[branch_name][product_name] = deepcopy(default_classifications)
 
             # Aggregate data for this product and classification
-            branches_data[branch_name][product_name][loan_classification]['Commitment'] += float(item.commitment.replace(',', ''))
+            branches_data[branch_name][product_name][loan_classification]['Commitment'] += float(item.principal.replace(',', ''))
             branches_data[branch_name][product_name][loan_classification]['Principal'] += float(item.principal.replace(',', ''))
             branches_data[branch_name][product_name][loan_classification]['Count'] += 1
+
+
+            branches_column_data[branch_name][loan_classification] += float(branches_data[branch_name][product_name][loan_classification]['Commitment'])
 
              # Round the values to 2 decimal places
             branches_data[branch_name][product_name][loan_classification]['Commitment'] = round(branches_data[branch_name][product_name][loan_classification]['Commitment'], 2)
             branches_data[branch_name][product_name][loan_classification]['Principal'] = round(branches_data[branch_name][product_name][loan_classification]['Principal'], 2)
 
+
             # print(branches_data)
+        print(branches_column_data)
             # Calculate totals for each classification type for each branch            
 
-    return render_template('loan_classification_total.html', branches_data=branches_data,id=id)
+    return render_template('loan_classification_total.html', branches_data=branches_data,id=id,branches_column_total=branches_column_data)
 
 
 @bp.route('/delete_loan_classification/<int:id>')

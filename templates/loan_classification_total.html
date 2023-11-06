@@ -138,12 +138,7 @@
                                     <!-- Iterate through each branch in the data -->
                                     {% for branch_name, products in branches_data.items() %}
                                     <!-- <h2>{{ branch_name }}</h2> -->
-                                               {% set current = 0.0 %}
-                                                {% set olem = 0.0 %}
-                                                {% set sub_stand = 0.0 %}
-                                                {% set doutful = 0.0 %}
-                                                {% set loss = 0.0 %}
-                                                {% set total_total = 0.0 %}
+                                             
                                     <div class="d-flex justify-content-between">
                                         <div>
                                             <h2 class="card-title fw-semibold mb-4">{{ branch_name }} </h2>
@@ -173,14 +168,6 @@
 
                                                 {% for product_name, classifications in products.items()%}
 
-                                                    <!-- {% set total_total = total_total + (
-                                                    classifications['Current (Up to 30 days)']['Commitment'] +
-                                                    classifications['OLEM (31 to 90 days)']['Commitment'] +
-                                                    classifications['SUB-STAND (91 to 180 days)']['Commitment'] +
-                                                    classifications['DOUTFUL (181 to 360 days)']['Commitment'] +
-                                                    classifications['LOSS (Over 360 days)']['Commitment']
-                                                    ) %} -->
-    
                                                     <tr>
                                                         <td>{{ product_name }}</td>
                                                         <td>{{ "{:,.2f}".format(classifications['Current (Up to 30 days)']['Commitment']) }}</td>
@@ -202,22 +189,20 @@
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <td>Subtotal</td>
-
-                                                    <td>
-                                                        
+                                                    <td>Sub Total</td>
+                                                    <td>{{ "{:,.2f}".format(branches_column_total[branch_name]['Current (Up to 30 days)']) }}</td>
+                                                    <td>{{ "{:,.2f}".format(branches_column_total[branch_name]['OLEM (31 to 90 days)']) }}</td>
+                                                    <td>{{ "{:,.2f}".format(branches_column_total[branch_name]['SUB-STAND (91 to 180 days)']) }}</td>
+                                                    <td>{{ "{:,.2f}".format(branches_column_total[branch_name]['DOUTFUL (181 to 360 days)']) }}</td>
+                                                    <td>{{ "{:,.2f}".format(branches_column_total[branch_name]['LOSS (Over 360 days)']) }}</td>
+                                                    <td>{{ "{:,.2f}".format(
+                                                        branches_column_total[branch_name]['Current (Up to 30 days)'] +
+                                                        branches_column_total[branch_name]['OLEM (31 to 90 days)'] +
+                                                        branches_column_total[branch_name]['SUB-STAND (91 to 180 days)'] +
+                                                        branches_column_total[branch_name]['DOUTFUL (181 to 360 days)'] +
+                                                        branches_column_total[branch_name]['LOSS (Over 360 days)']
+                                                        ) }}
                                                     </td>
-                                                    <td>
-                                                        
-                                                    </td>
-                                                    <td>
-                                                    </td>
-                                                    <td>
-                                                                
-                                                    </td>
-                                                    
-
-                                                    <!-- You can add the logic for calculating subtotal here if needed -->
                                                 </tr>
                                             </tfoot>
                                         </table>
