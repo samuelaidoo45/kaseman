@@ -151,14 +151,14 @@ def create_loan_classification():
     return render_template('index.html',loan_classes=serialized_loan_classifications)
 
 
-def classify_loan(opening_date_str):
+def classify_loan(maturity_date_str):
     from datetime import datetime  # Make sure you've imported datetime here
     # opening_date = datetime.strptime(opening_date_str, '%Y-%m-%d').date()
     
-    opening_date = datetime.strptime(opening_date_str, '%d-%b-%y').date()
+    maturity_date = datetime.strptime(maturity_date_str, '%d-%b-%y').date()
 
     # opening_date = datetime.strptime(opening_date_str, '%Y-%m-%d').date()
-    days_outstanding = (date.today() - opening_date).days
+    days_outstanding = (date.today() - maturity_date).days
 
     # Classify the loan based on days_difference
     if days_outstanding <= 30:
@@ -201,7 +201,7 @@ def loan_classification_total(id):
             if item.opening_date is None:
                 continue
 
-            loan_classification = classify_loan(item.opening_date)
+            loan_classification = classify_loan(item.maturity_date)
 
             # Ensure product is initialized with default classifications
             if product_name not in branches_data[branch_name]:
@@ -216,6 +216,8 @@ def loan_classification_total(id):
             branches_data[branch_name][product_name][loan_classification]['Commitment'] = round(branches_data[branch_name][product_name][loan_classification]['Commitment'], 2)
             branches_data[branch_name][product_name][loan_classification]['Principal'] = round(branches_data[branch_name][product_name][loan_classification]['Principal'], 2)
 
+            # print(branches_data)
+            # Calculate totals for each classification type for each branch            
 
     return render_template('loan_classification_total.html', branches_data=branches_data,id=id)
 

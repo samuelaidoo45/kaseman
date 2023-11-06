@@ -18,5 +18,4 @@ def create_app():
     app.register_blueprint(analytics.bp)
     app.register_blueprint(advance_classification.bp)
 
-
     return app

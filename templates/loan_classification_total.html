@@ -161,7 +161,7 @@
                                             <thead class="text-dark fs-4">
                                                 <tr>
                                                     <th>Product Name</th>
-                                                    <th>Up to 30 days</th>
+                                                    <th>Current</th>
                                                     <th>31 to 90 days</th>
                                                     <th>91 to 180 days</th>
                                                     <th>181 to 360 days</th>
@@ -171,64 +171,51 @@
                                             </thead>
                                             <tbody>
 
-
                                                 {% for product_name, classifications in products.items()%}
 
-                                                {% set current = "{:,.2f}".format( current + classifications['Current (Up to 30 days)']['Commitment']) %}
-                                                
-
-                                                {% set olem = olem + classifications['OLEM (31 to 90 days)']['Commitment'] %}
-                                                {% set sub_stand = sub_stand + classifications['SUB-STAND (91 to 180 days)']['Commitment'] %}
-                                                {% set doutful = doutful + classifications['DOUTFUL (181 to 360 days)']['Commitment'] %}
-                                                {% set loss = loss + classifications['LOSS (Over 360 days)']['Commitment'] %}
-                                                {% set total_total = total_total + (
-                                                classifications['Current (Up to 30 days)']['Commitment'] +
-                                                classifications['OLEM (31 to 90 days)']['Commitment'] +
-                                                classifications['SUB-STAND (91 to 180 days)']['Commitment'] +
-                                                classifications['DOUTFUL (181 to 360 days)']['Commitment'] +
-                                                classifications['LOSS (Over 360 days)']['Commitment']
-                                                ) %}
-  
-                                                <tr>
-                                                    <td>{{ product_name }}</td>
-                                                    <td>{{ "{:,.2f}".format(classifications['Current (Up to 30 days)']['Commitment']) }}</td>
-                                                    <td>{{ "{:,.2f}".format(classifications['OLEM (31 to 90 days)']['Commitment']) }}</td>
-                                                    <td>{{ "{:,.2f}".format(classifications['SUB-STAND (91 to 180 days)']['Commitment']) }}</td>
-                                                    <td>{{ "{:,.2f}".format(classifications['DOUTFUL (181 to 360 days)']['Commitment']) }}</td>
-                                                    <td>{{ "{:,.2f}".format(classifications['LOSS (Over 360 days)']['Commitment']) }}</td>
-                                                    <td>{{
-                                                        "{:,.2f}".format(
-                                                        classifications['Current (Up to 30 days)']['Commitment'] +
-                                                        classifications['OLEM (31 to 90 days)']['Commitment'] +
-                                                        classifications['SUB-STAND (91 to 180 days)']['Commitment'] +
-                                                        classifications['DOUTFUL (181 to 360 days)']['Commitment'] +
-                                                        classifications['LOSS (Over 360 days)']['Commitment']
-                                                        )
-                                                        }}</td>
-                                                </tr>
+                                                    <!-- {% set total_total = total_total + (
+                                                    classifications['Current (Up to 30 days)']['Commitment'] +
+                                                    classifications['OLEM (31 to 90 days)']['Commitment'] +
+                                                    classifications['SUB-STAND (91 to 180 days)']['Commitment'] +
+                                                    classifications['DOUTFUL (181 to 360 days)']['Commitment'] +
+                                                    classifications['LOSS (Over 360 days)']['Commitment']
+                                                    ) %} -->
+    
+                                                    <tr>
+                                                        <td>{{ product_name }}</td>
+                                                        <td>{{ "{:,.2f}".format(classifications['Current (Up to 30 days)']['Commitment']) }}</td>
+                                                        <td>{{ "{:,.2f}".format(classifications['OLEM (31 to 90 days)']['Commitment']) }}</td>
+                                                        <td>{{ "{:,.2f}".format(classifications['SUB-STAND (91 to 180 days)']['Commitment']) }}</td>
+                                                        <td>{{ "{:,.2f}".format(classifications['DOUTFUL (181 to 360 days)']['Commitment']) }}</td>
+                                                        <td>{{ "{:,.2f}".format(classifications['LOSS (Over 360 days)']['Commitment']) }}</td>
+                                                        <td>{{
+                                                            "{:,.2f}".format(
+                                                            classifications['Current (Up to 30 days)']['Commitment'] +
+                                                            classifications['OLEM (31 to 90 days)']['Commitment'] +
+                                                            classifications['SUB-STAND (91 to 180 days)']['Commitment'] +
+                                                            classifications['DOUTFUL (181 to 360 days)']['Commitment'] +
+                                                            classifications['LOSS (Over 360 days)']['Commitment']
+                                                            )
+                                                            }}</td>
+                                                    </tr>
                                                 {% endfor %}
                                             </tbody>
                                             <tfoot>
                                                 <tr>
                                                     <td>Subtotal</td>
-                                                    <td>{{
-                                                        "{:,.2f}".format(current)
-                                                        }}</td>
-                                                    <td>{{
-                                                        olem
-                                                        }}</td>
-                                                    <td>{{
-                                                        sub_stand
-                                                            }}</td>
-                                                            <td>{{
-                                                                doutful
-                                                                }}</td>
-                                                            <td>{{
-                                                                loss
-                                                                }}</td>
-                                                            <td>{{
-                                                                total_total
-                                                                    }}</td>
+
+                                                    <td>
+                                                        
+                                                    </td>
+                                                    <td>
+                                                        
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                                
+                                                    </td>
+                                                    
 
                                                     <!-- You can add the logic for calculating subtotal here if needed -->
                                                 </tr>
