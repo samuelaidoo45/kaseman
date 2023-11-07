@@ -127,8 +127,6 @@ def loan_file_upload(id):
             'branch_name': classification.branch_name,
         })
     
-    
-    
     return render_template('loan_classification_uploads.html',loan_class_uploads=serialized_loan_classification_uploads,loan_class_id=id)
     
 @bp.route('/create_loan_classification',methods=['POST'])
@@ -238,21 +236,11 @@ def loan_classification_total(id):
             else:
                 principal_value = 0.0
 
-            # if loan_classification == 'DOUTFUL (181 to 360 days)':
-            #     print(overdue_value)
-            #     print(due_date_value)
-            #     print(principal_value)
-
-            # if item.status == 'Expired':
-            #     print(item.due_date)
-            #     print(item.overdue)
-
             branches_data[branch_name][product_name][loan_classification]['Commitment'] += overdue_value + due_date_value + principal_value
 
             # branches_data[branch_name][product_name][loan_classification]['Commitment'] += float(item.overdue) + float(item.due_date) + float(item.principal.replace(',', ''))
             branches_data[branch_name][product_name][loan_classification]['Principal'] += float(item.principal.replace(',', ''))
             branches_data[branch_name][product_name][loan_classification]['Count'] += 1
-
 
             branches_column_data[branch_name][loan_classification] += round((overdue_value + due_date_value + principal_value),2)
 
@@ -262,9 +250,29 @@ def loan_classification_total(id):
 
             # print(branches_data)
     # print(branches_column_data)
-            # Calculate totals for each classification type for each branch            
 
-    return render_template('loan_classification_total.html', branches_data=branches_data,id=id,branches_column_total=branches_column_data)
+    totals = {}
+
+    # Iterate over each branch to calculate the total for each category
+    for branch in branches_column_data:
+        for category in branches_column_data[branch]:
+            # If the category is not already in the totals dictionary, add it with its current value
+            if category not in totals:
+                totals[category] = (round((branches_column_data[branch][category]),2))
+            # If the category is already in the totals dictionary, increment it by its current value
+            else:
+                totals[category] += (round((branches_column_data[branch][category]),2))
+
+    # The totals dictionary now contains the sum for each category across all branches
+    # print(totals)
+
+    # Calculate 1% of the totals for each category
+    percent_totals = {category: "{:,.2f}".format(round(total * 0.01,2)) for category, total in totals.items()}
+
+    formatted_totals = {category: "{:,.2f}".format(total) for category, total in totals.items()}
+
+
+    return render_template('loan_classification_total.html', branches_data=branches_data,id=id,branches_column_total=branches_column_data,totals=formatted_totals,percent_totals=percent_totals)
 
 
 @bp.route('/delete_loan_classification/<int:id>')

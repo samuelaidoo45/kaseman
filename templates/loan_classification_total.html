@@ -229,26 +229,24 @@
                                             </tbody>
 
                                         </table> -->
-                                        <table class="table text-nowrap mb-0 align-middle">
+                                        <table class="table text-nowrap mb-0 align-middle text-dark">
                                             <tr>
                                               <td>Total Loans</td>
-                                              <td>Row 1, Column 2</td>
-                                              <td>Row 1, Column 3</td>
-                                              <td>Row 1, Column 4</td>
-                                              <td>Row 1, Column 5</td>
-                                              <td>Row 1, Column 6</td>
-                                              <td>Row 1, Column 7</td>
+                                              <td>Current (Up to 30 days): {{ totals['Current (Up to 30 days)'] }}</td>
+                                              <td>OLEM (31 to 90 days): {{ totals['OLEM (31 to 90 days)'] }}</td>
+                                              <td>SUB-STAND (91 to 180 days): {{ totals['SUB-STAND (91 to 180 days)'] }}</td>
+                                              <td>DOUTFUL (181 to 360 days): {{ totals['DOUTFUL (181 to 360 days)'] }}</td>
+                                              <td>LOSS (Over 360 days): {{ totals['Current (Up to 30 days)'] }}</td>
                                             </tr>
                                             <tr>
                                               <td>Provision Required</td>
-                                              <td>Row 2, Column 2</td>
-                                              <td>Row 2, Column 3</td>
-                                              <td>Row 2, Column 4</td>
-                                              <td>Row 2, Column 5</td>
-                                              <td>Row 2, Column 6</td>
-                                              <td>Row 2, Column 7</td>
+                                              <td>Current (Up to 30 days): {{ percent_totals['Current (Up to 30 days)'] }}</td>
+                                              <td>OLEM (31 to 90 days): {{ percent_totals['OLEM (31 to 90 days)'] }}</td>
+                                              <td>SUB-STAND (91 to 180 days): {{ percent_totals['SUB-STAND (91 to 180 days)'] }}</td>
+                                              <td>DOUTFUL (181 to 360 days): {{ percent_totals['DOUTFUL (181 to 360 days)'] }}</td>
+                                              <td>LOSS (Over 360 days): {{ percent_totals['Current (Up to 30 days)'] }}</td>
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                               <td>%Required</td>
                                               <td>Row 3, Column 2</td>
                                               <td>Row 3, Column 3</td>
@@ -256,7 +254,7 @@
                                               <td>Row 3, Column 5</td>
                                               <td>Row 3, Column 6</td>
                                               <td>Row 3, Column 7</td>
-                                            </tr>
+                                            </tr> -->
                                           </table>
                                           
                                     </div>
