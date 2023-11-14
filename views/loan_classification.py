@@ -275,8 +275,26 @@ def loan_classification_total(id):
 
     # The totals dictionary now contains the sum for each category across all branches
 
-    # Calculate 1% of the totals for each category
-    percent_totals = {category: "{:,.2f}".format(round(total * 0.01,2)) for category, total in totals.items()}
+    # # Calculate 1% of the totals for each category
+    # percent_totals = {category: "{:,.2f}".format(round(total * 0.01,2)) for category, total in totals.items()}
+
+    # Define the percentages for each category
+    category_percentages = {
+        'Current (Up to 30 days)': 0.01,  # 1%
+        'OLEM (31 to 90 days)': 0.10,     # 10%
+        'SUB-STAND (91 to 180 days)': 0.25, # 25%
+        'DOUTFUL (181 to 360 days)': 0.50,  # 50%
+        'LOSS (Over 360 days)': 1.00       # 100%
+    }
+
+    # Assuming 'totals' is a dictionary with categories as keys and their corresponding total values
+    # Update percent_totals to calculate the percentage of the total for each category
+
+    
+
+    percent_totals = {category: "{:,.2f}".format(round(totals.get(category, 0) * category_percentages.get(category, 0), 2)) for category in category_percentages}
+
+    
 
     formatted_totals = {category: "{:,.2f}".format(total) for category, total in totals.items()}
 
@@ -305,7 +323,6 @@ def delete_loan_classification(id):
 
     # Commit the changes to the database
     db.session.commit()
-
 
     # loan_classification_files_to_delete = LoanClassificationFiles.query.filter_by(loan_class_id=id).all()
 
