@@ -176,6 +176,10 @@ def classify_loan(maturity_date_str):
     else:
         return 'LOSS (Over 360 days)'   # Adjusted key here
 
+def get_unified_product_name(product_name):
+    if product_name in ['Salary Loan', 'Personal Loan']:
+        return "Salary/Personal Loan"
+    return product_name
 
 @bp.route('/loan_classification_total/<int:id>')
 def loan_classification_total(id):
@@ -209,16 +213,20 @@ def loan_classification_total(id):
 
         loan_classification_items = LoanClassificationItems.query.filter_by(loan_class_file_id=classification.id).all()
 
+
         for item in loan_classification_items:
             product_name = item.product_name
+            # print(product_name)
+            unified_product_name = get_unified_product_name(product_name)
+            # print(unified_product_name)
             if item.opening_date is None:
                 continue
 
             loan_classification = classify_loan(item.maturity_date)
 
             # Ensure product is initialized with default classifications
-            if product_name not in branches_data[branch_name]:
-                branches_data[branch_name][product_name] = deepcopy(default_classifications)
+            if unified_product_name not in branches_data[branch_name]:
+                branches_data[branch_name][unified_product_name] = deepcopy(default_classifications)
 
             # Aggregate data for this product and classification
             if item.overdue is not None:
@@ -236,20 +244,22 @@ def loan_classification_total(id):
             else:
                 principal_value = 0.0
 
-            branches_data[branch_name][product_name][loan_classification]['Commitment'] += overdue_value + due_date_value + principal_value
+            # Use the function to get the unified product name
+
+            # Perform the calculation using the unified product name
+            branches_data[branch_name][unified_product_name][loan_classification]['Commitment'] += overdue_value + due_date_value + principal_value
+
+            # branches_data[branch_name][product_name][loan_classification]['Commitment'] += overdue_value + due_date_value + principal_value
 
             # branches_data[branch_name][product_name][loan_classification]['Commitment'] += float(item.overdue) + float(item.due_date) + float(item.principal.replace(',', ''))
-            branches_data[branch_name][product_name][loan_classification]['Principal'] += float(item.principal.replace(',', ''))
-            branches_data[branch_name][product_name][loan_classification]['Count'] += 1
+            branches_data[branch_name][unified_product_name][loan_classification]['Principal'] += float(item.principal.replace(',', ''))
+            branches_data[branch_name][unified_product_name][loan_classification]['Count'] += 1
 
             branches_column_data[branch_name][loan_classification] += round((overdue_value + due_date_value + principal_value),2)
 
             # Round the values to 2 decimal places
-            branches_data[branch_name][product_name][loan_classification]['Commitment'] = round(branches_data[branch_name][product_name][loan_classification]['Commitment'], 2)
-            branches_data[branch_name][product_name][loan_classification]['Principal'] = round(branches_data[branch_name][product_name][loan_classification]['Principal'], 2)
-
-            # print(branches_data)
-    # print(branches_column_data)
+            branches_data[branch_name][unified_product_name][loan_classification]['Commitment'] = round(branches_data[branch_name][unified_product_name][loan_classification]['Commitment'], 2)
+            branches_data[branch_name][unified_product_name][loan_classification]['Principal'] = round(branches_data[branch_name][unified_product_name][loan_classification]['Principal'], 2)
 
     totals = {}
 
@@ -264,13 +274,11 @@ def loan_classification_total(id):
                 totals[category] += (round((branches_column_data[branch][category]),2))
 
     # The totals dictionary now contains the sum for each category across all branches
-    # print(totals)
 
     # Calculate 1% of the totals for each category
     percent_totals = {category: "{:,.2f}".format(round(total * 0.01,2)) for category, total in totals.items()}
 
     formatted_totals = {category: "{:,.2f}".format(total) for category, total in totals.items()}
-
 
     return render_template('loan_classification_total.html', branches_data=branches_data,id=id,branches_column_total=branches_column_data,totals=formatted_totals,percent_totals=percent_totals)
 
