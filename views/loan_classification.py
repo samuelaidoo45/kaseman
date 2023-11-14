@@ -285,14 +285,42 @@ def loan_classification_total(id):
 
 @bp.route('/delete_loan_classification/<int:id>')
 def delete_loan_classification(id):
-    # Retrieve the LoanClassification object with the given id
-    loan_classification_to_delete = LoanClassification.query.get_or_404(id)
 
-    # Delete the retrieved object from the database
-    db.session.delete(loan_classification_to_delete)
+    loan_classification_files = LoanClassificationFiles.query.filter_by(loan_class_id=id).all()
 
-    # Commit the changes
+    # Delete associated LoanClassificationItems and LoanClassificationFiles
+    for file in loan_classification_files:
+        # Retrieve and delete associated LoanClassificationItems
+        loan_classification_items_to_delete = LoanClassificationItems.query.filter_by(loan_class_file_id=file.id).all()
+        for item in loan_classification_items_to_delete:
+            db.session.delete(item)
+
+        # Delete the LoanClassificationFile
+        db.session.delete(file)
+
+    # Retrieve and delete the LoanClassification object with the given id
+    loan_classification_to_delete = LoanClassification.query.get(id)
+    if loan_classification_to_delete:
+        db.session.delete(loan_classification_to_delete)
+
+    # Commit the changes to the database
     db.session.commit()
+
+
+    # loan_classification_files_to_delete = LoanClassificationFiles.query.filter_by(loan_class_id=id).all()
+
+    # # Delete associated files
+    # for file in loan_classification_files_to_delete:
+    #     db.session.delete(file)
+
+    # # Retrieve the LoanClassification object with the given id
+    # loan_classification_to_delete = LoanClassification.query.get_or_404(id)
+
+    # # Delete the retrieved object from the database
+    # db.session.delete(loan_classification_to_delete)
+
+    # # Commit the changes
+    # db.session.commit()
 
     # Redirect the user to the index page with a success message
     # (assuming you have a route named 'index' for the main page)
