@@ -181,6 +181,13 @@ def get_unified_product_name(product_name):
         return "Salary/Personal Loan"
     return product_name
 
+@bp.route('/top_loans/<int:id>')
+def top_loans(id):
+    print(id)
+    # return ""
+    return render_template('top_loans.html',id=id)
+
+
 @bp.route('/loan_classification_total/<int:id>')
 def loan_classification_total(id):
     loan_classification_uploads = LoanClassificationFiles.query.filter_by(loan_class_id=id).all()
