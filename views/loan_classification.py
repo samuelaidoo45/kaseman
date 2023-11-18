@@ -181,11 +181,31 @@ def get_unified_product_name(product_name):
         return "Salary/Personal Loan"
     return product_name
 
+def parse_principal(principal_str):
+    try:
+        return float(principal_str.replace(',', ''))
+    except ValueError:
+        return 0.0 
+
 @bp.route('/top_loans/<int:id>')
 def top_loans(id):
-    print(id)
-    # return ""
-    return render_template('top_loans.html',id=id)
+    top_loans = {}
+
+    loan_classification_uploads = LoanClassificationFiles.query.filter_by(loan_class_id=id).all()
+
+    for classification in loan_classification_uploads:
+        branch_name = classification.branch_name
+
+        if branch_name not in top_loans:
+            top_loans[branch_name] = []
+
+        # top_20_loan_items = LoanClassificationItems.query.filter_by(loan_class_file_id=classification.id).order_by(LoanClassificationItems.principal.desc()).limit(20).all()
+        top_loan_items = LoanClassificationItems.query.filter_by(loan_class_file_id=classification.id).limit(20).all()
+        sorted_loan_items = sorted(top_loan_items, key=lambda item: parse_principal(item.principal), reverse=True)
+
+        top_loans[branch_name].extend(sorted_loan_items)
+
+    return render_template('top_loans.html',id=id,top_loans=top_loans)
 
 
 @bp.route('/loan_classification_total/<int:id>')
@@ -219,7 +239,6 @@ def loan_classification_total(id):
             }
 
         loan_classification_items = LoanClassificationItems.query.filter_by(loan_class_file_id=classification.id).all()
-
 
         for item in loan_classification_items:
             product_name = item.product_name
