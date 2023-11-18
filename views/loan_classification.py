@@ -199,7 +199,6 @@ def top_loans(id):
         if branch_name not in top_loans:
             top_loans[branch_name] = []
 
-        # top_20_loan_items = LoanClassificationItems.query.filter_by(loan_class_file_id=classification.id).order_by(LoanClassificationItems.principal.desc()).limit(20).all()
         top_loan_items = LoanClassificationItems.query.filter_by(loan_class_file_id=classification.id).limit(20).all()
         sorted_loan_items = sorted(top_loan_items, key=lambda item: parse_principal(item.principal), reverse=True)
 
@@ -316,11 +315,7 @@ def loan_classification_total(id):
     # Assuming 'totals' is a dictionary with categories as keys and their corresponding total values
     # Update percent_totals to calculate the percentage of the total for each category
 
-    
-
     percent_totals = {category: "{:,.2f}".format(round(totals.get(category, 0) * category_percentages.get(category, 0), 2)) for category in category_percentages}
-
-    
 
     formatted_totals = {category: "{:,.2f}".format(total) for category, total in totals.items()}
 
@@ -350,25 +345,6 @@ def delete_loan_classification(id):
     # Commit the changes to the database
     db.session.commit()
 
-    # loan_classification_files_to_delete = LoanClassificationFiles.query.filter_by(loan_class_id=id).all()
-
-    # # Delete associated files
-    # for file in loan_classification_files_to_delete:
-    #     db.session.delete(file)
-
-    # # Retrieve the LoanClassification object with the given id
-    # loan_classification_to_delete = LoanClassification.query.get_or_404(id)
-
-    # # Delete the retrieved object from the database
-    # db.session.delete(loan_classification_to_delete)
-
-    # # Commit the changes
-    # db.session.commit()
-
-    # Redirect the user to the index page with a success message
-    # (assuming you have a route named 'index' for the main page)
-    # flash('Loan Classification successfully deleted!', 'success')
-    # return redirect(url_for('index'))
     loan_classifications = LoanClassification.query.all()  # Retrieve all loan classifications from the database
     
     serialized_loan_classifications = []
