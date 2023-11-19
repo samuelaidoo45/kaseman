@@ -199,10 +199,16 @@ def top_loans(id):
         if branch_name not in top_loans:
             top_loans[branch_name] = []
 
-        top_loan_items = LoanClassificationItems.query.filter_by(loan_class_file_id=classification.id).limit(20).all()
+        # Fetch all loan items associated with the classification ID
+        top_loan_items = LoanClassificationItems.query.filter_by(loan_class_file_id=classification.id).all()
+
+        # Sort all fetched items by principal in descending order
         sorted_loan_items = sorted(top_loan_items, key=lambda item: parse_principal(item.principal), reverse=True)
 
-        top_loans[branch_name].extend(sorted_loan_items)
+        # Limit the sorted list to the top 20 items
+        top_20_loan_items = sorted_loan_items[:20]
+
+        top_loans[branch_name].extend(top_20_loan_items)
 
     return render_template('top_loans.html',id=id,top_loans=top_loans)
 
