@@ -151,8 +151,9 @@
                                     <div class="table-responsive">
 
                                         {% for branch, loans in top_loans.items() %}
+                                        
                                         <h3>{{ branch }} Loans</h3>
-                                        <table class="table text-nowrap mb-0 align-middle">
+                                        <table class="table text-nowrap mb-0 align-middle text-dark">
                                             <thead class="text-dark fs-4">
                                                 <tr>
                                                     <th>#</th>
@@ -161,7 +162,6 @@
                                                     <th>Customer Name</th>
                                                     <th>Customer</th>
                                                     <th>Product Name</th>
-
                                                     <th>Account</th>
                                                     <!-- <th>Officer</th> -->
                                                     <th>Opening Date</th>
@@ -185,7 +185,6 @@
                                                     <td>{{ loan.customer }}</td>
                                                     <td>{{ loan.product_name }}</td>
 
-
                                                     <!-- <td>{{ loan.application_id }}</td> -->
                                                     <!-- <td>{{ loan.company_branch }}</td> -->
                                                     <td>{{ loan.account }}</td>
@@ -208,21 +207,24 @@
                                                 <!-- Optional footer -->
                                             </tfoot>
                                         </table>
+                                        <br>
+                                        <br>
                                         {% endfor %}
-
-
-                                        <!-- <table class="table text-nowrap mb-0 align-middle">
-                                            <thead class="text-dark fs-4">
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <div class="table-responsive">
+                                        <h3>Overall Top 20 Loans</h3>
+                                        <table class="table text-nowrap mb-0 align-middle text-dark">
+                                            <thead>
                                                 <tr>
-                                                    <th>Application ID</th>
-                                                    <th>Company Branch</th>
-                                                    <th>Account</th>
-                                                    <th>Officer</th>
-                                                    <th>Product Name</th>
-                                                    <th>Customer</th>
+                                                    <th>#</th>
+                                                    <th>Branch</th>
                                                     <th>Customer Name</th>
+                                                    <th>Customer ID</th>
+                                                    <th>Product Name</th>
+                                                    <th>Account</th>
                                                     <th>Opening Date</th>
-                                                    <th>First Pay Date</th>
                                                     <th>Maturity Date</th>
                                                     <th>Term</th>
                                                     <th>Currency</th>
@@ -230,40 +232,33 @@
                                                     <th>Principal</th>
                                                     <th>Due Date</th>
                                                     <th>Overdue</th>
-                                                    <th>Reschedule ID</th>
                                                     <th>Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {% for branch, loans in top_loans.items() %}
-                                                {% for loan in loans %}
-                                                    <tr>
-                                                        <td>{{ loan.application_id }}</td>
-                                                        <td>{{ branch }}</td>
-                                                        <td>{{ loan.account }}</td>
-                                                        <td>{{ loan.officer }}</td>
-                                                        <td>{{ loan.status }}</td>
-                                                    </tr>
+                                                {% for branch, loan in top_20_overall_loans %}
+                                                <tr>
+                                                    <td>{{ loop.index }}</td>
+                                                    <td>{{ branch }}</td>
+                                                    <td>{{ loan.customer_name or 'N/A' }}</td>
+                                                    <td>{{ loan.customer or 'N/A' }}</td>
+                                                    <td>{{ loan.product_name or 'N/A' }}</td>
+                                                    <td>{{ loan.account or 'N/A' }}</td>
+                                                    <td>{{ loan.opening_date or 'N/A' }}</td>
+                                                    <td>{{ loan.maturity_date or 'N/A' }}</td>
+                                                    <td>{{ loan.term or 'N/A' }}</td>
+                                                    <td>{{ loan.ccy or 'N/A' }}</td>
+                                                    <td>{{ loan.commitment or 'N/A' }}</td>
+                                                    <td>{{ loan.principal or 'N/A' }}</td>
+                                                    <td>{{ loan.due_date or 'N/A' }}</td>
+                                                    <td>{{ loan.overdue or 'N/A' }}</td>
+                                                    <td>{{ loan.status or 'N/A' }}</td>
+                                                </tr>
                                                 {% endfor %}
-                                            {% endfor %}
-                                                
                                             </tbody>
-                                            <tfoot>
-
-                                            </tfoot>
-                                        </table> -->
-                                    </div>
-
-
-                                    <div class="table-responsive">
-
-                                        <table class="table text-nowrap mb-0 align-middle text-dark">
-
-
                                         </table>
-
                                     </div>
-
+                                    
                                 </div>
                             </div>
                         </div>

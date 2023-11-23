@@ -213,7 +213,20 @@ def top_loans(id):
 
         top_loans[branch_name].extend(top_20_loan_items)
 
-    return render_template('top_loans.html',id=id,top_loans=top_loans)
+    combined_loans = []
+    for branch in top_loans:
+        for loan in top_loans[branch]:
+            combined_loans.append((branch, loan))
+
+    # Sort the combined loans by principal, in descending order
+    combined_loans_sorted = sorted(combined_loans, key=lambda x: parse_principal(x[1].principal), reverse=True)
+
+    # Select the top 20 loans from the combined list
+    top_20_combined_loans = combined_loans_sorted[:20]
+
+    print(top_20_combined_loans)
+
+    return render_template('top_loans.html',id=id,top_loans=top_loans,top_20_overall_loans=top_20_combined_loans)
 
 
 @bp.route('/loan_classification_total/<int:id>')
