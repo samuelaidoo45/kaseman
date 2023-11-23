@@ -183,7 +183,10 @@ def get_unified_product_name(product_name):
 
 def parse_principal(principal_str):
     try:
-        return float(principal_str.replace(',', ''))
+         if principal_str is not None:
+            return float(principal_str.replace(',', ''))
+         else:
+            return 0.0
     except ValueError:
         return 0.0 
 
