@@ -29,17 +29,6 @@ def loan_classification_uploads(id):
     
     loan_classifications = LoanClassification.query.filter_by(id=id).all()  # Retrieve all loan classifications from the database
     
-    # serialized_loan_classifications = []
-    # for classification in loan_classifications:
-    #     serialized_loan_classifications.append({
-    #         'id': classification.id,
-    #         'loan_classification_name': classification.loan_classification_name,
-    #         'loan_classification_desc': classification.loan_classification_desc,
-    #     })
-
-    # print("Hello world")
-    # print(loan_classifications[0].loan_classification_name)
-    
     return render_template('loan_classification_uploads.html',loan_class_uploads=serialized_loan_classification_uploads,loan_class_id=id,loan_class_date=loan_classifications[0].loan_classification_name)
 
 
@@ -378,3 +367,12 @@ def delete_loan_classification(id):
         })
     
     return render_template('index.html',loan_classes=serialized_loan_classifications)
+
+
+@bp.route('/classification_advances/<int:id>')
+def classification_advances(id):
+    
+    return render_template('advances.html',id=id,)
+
+
+
