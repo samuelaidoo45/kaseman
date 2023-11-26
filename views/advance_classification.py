@@ -89,7 +89,7 @@ def create_advance_classification():
         "amount_provided":classification_total(currentMonth)[1]
     }
 
-    print(quaterly_interest_charge(currentMonth))
+    # print(quaterly_interest_charge(currentMonth))
 
     processed_data = preprocess_data(advances_classification)
 
@@ -265,7 +265,7 @@ def quaterly_interest_charge(id):
 
             loan_classification = classify_loan(item.maturity_date)
 
-            print(loan_classification)
+            # print(loan_classification)
             # Assuming classify_loan function and qrt_int_charged dictionary are defined correctly
             qrt_int_charged[loan_classification] += qrt_charge
 
