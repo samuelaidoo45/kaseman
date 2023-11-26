@@ -232,4 +232,5 @@ def classification_total(id):
     return [formatted_totals,percent_totals]
 
 def quaterly_interest_charge(id):
-    
+    return ''    
+
