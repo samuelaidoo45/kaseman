@@ -39,22 +39,24 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+
     <style>
-        table{
+        table {
             width: 100%;
             table-layout: fixed;
         }
+
         /* table th td{
             width: 33.33%;
         } */
 
-        th td{
+        th td {
             overflow: hidden;
         }
 
         table th:nth-child(3),
         table td:nth-child(3) {
-            text-align:right;
+            text-align: right;
         }
     </style>
 
@@ -99,7 +101,7 @@
                     <a href="{{ url_for('main.index') }}" class="nav-item nav-link"><i
                             class="fa fa-chart-pie me-2"></i>Loans
                     </a>
-                    <a href="{{ url_for('returns.returns') }}" class="nav-item nav-link"><i
+                    <a href="{{ url_for('returns.advances_main') }}" class="nav-item nav-link"><i
                             class="fa fa-chart-line me-2"></i>Advances</a>
                 </div>
             </nav>
@@ -131,139 +133,102 @@
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-body">
-                             <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h5 class="card-title fw-semibold mb-4">Loan Classification {{ loan_class_date }}</h5>
-                                        </div>
-                                        <div>
-                                            <a href="{{ url_for('main.index')}}" class="btn btn-primary">Back</a>
-
-                                            <!-- <button class="btn btn-primary mr-2">Upload</button>
-                                            <button class="btn btn-primary">Process</button> -->
-                                        </div>
-                                    </div>
+                            <h5 class="card-title fw-semibold mb-4">Classification of Advances</h5>
                             <div class="card">
-                                <div class="card-body ">
-                                    <h6 class="card-title fw-semibold mb-4">Upload Loan Files </h6>
+                                <div class="card-body">
+                                    <h5 class="card-title fw-semibold mb-4">Select Current and Previous Month</h5>
 
-                                    <form method="post" action="{{ url_for('loan_classification.loan_file_upload',id=loan_class_id) }}" enctype="multipart/form-data">
+                                    <!-- <form method="post" action="{{ url_for('loan_classification.create_loan_classification') }}">
                                         <div class="mb-3">
-                                            <label for="loanClassName" class="form-label">Branch Name</label>
-                                            <!-- <input type="text" class="form-control" name="branchName" id="branchName"
-                                                aria-describedby="branchNameHelp"> -->
-                                            <select class="form-control" name="branchName" id="branchName" >
-                                                <option selected disabled>--Select--</option>
-                                                <!-- <option value="GH5540015" >Berekum</option> -->
-                                                <option value="Berekum" >Berekum</option>
-                                                <!-- <option value="GH5540018">Sunyani</option> -->
-                                                <option value="Sunyani">Sunyani</option>
-                                                <!-- <option value="GH5540016">Doobo</option> -->
-                                                <option value="Doobo">Doobo</option>
-                                                <!-- <option value="GH5540012">Debiso</option> -->
-                                                <option value="Debiso">Debiso</option>
-                                                <!-- <option value="GH5540014">Dormaa</option> -->
-                                                <option value="Dormaa">Dormaa</option>
-                                                <!-- <option value="GH5540020">Adamsu</option> -->
-                                                <option value="Adamsu">Adamsu</option>
-                                                <!-- <option value="GH554003">Osei Kwadwotum</option> -->
-                                                <option value="Osei Kwadwotum">Osei Kwadwotum</option>
-                                                <!-- <option value="GH55400">Yawmatwa</option> -->
-                                                <option value="Yawmatwa">Yawmatwa</option>
-                                                <!-- <option value="GH554007">Kaase</option> -->
-                                                <option value="Kaase">Kaase</option>
-                                            </select>
+                                            <label for="loanClassName" class="form-label">Loan Classification
+                                                Date</label>
+                                            <input type="text" class="form-control" name="loanClassName" id="loanClassName"
+                                                aria-describedby="loanClassNameHelp">
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="loanClassDesc"  class="form-label">CSV file</label>
-                                            <input type="file" class="form-control" name="loanFile" id="loanFile">
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary">Upload</button>
-                                    </form>
-                                    <!-- Your form or content here -->
-
-                                    <!-- Buttons moved to the left -->
-                                    <!-- <div class="d-flex justify-content-between">
-                                        <a href="{{ url_for('main.index')}}" class="btn btn-primary">Back</a>
-                                        <div>
-                                        </div>
-                                        <div>
-                                            <button class="btn btn-primary mr-2">Upload</button>
-                                            <button class="btn btn-primary">Process</button>
-                                        </div>
-                                    </div> -->
                                     
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form> -->
+
+                                    <form method="post"
+                                        action="{{ url_for('returns.create_advance_classification') }}">
+                                        <div class="mb-3">
+
+                                            <label for="loanClassificationDate" class="form-label">Previous
+                                                Month</label>
+
+                                            <!-- Year Dropdown -->
+                                            <select name="previousMonth" id="previousMonth" class="form-control">
+                                                {% for classification in classification_months %}
+                                                <option value="{{ classification.id }}">{{ classification.loan_classification_month }}</option>
+                                                {% endfor %}
+                                            </select>
+
+                                            <br>
+
+                                            <label for="loanClassificationDate" class="form-label">Current Month</label>
+
+                                            <!-- Month Dropdown -->
+                                            <select name="currentMonth" id="currentMonth" class="form-control mb-2">
+                                                {% for classification in classification_months %}
+                                                <option value="{{ classification.id }}">{{ classification.loan_classification_month }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+
                                 </div>
                             </div>
 
                             <br>
                             <br>
 
-                            <div class="card w-100">
+                            <!-- <div class="card w-100">
                                 <div class="card-body p-4">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h6 class="card-title fw-semibold mb-4">Uploaded Files </h6>
-                                        </div>
-                                        <div>
-                                            <a href="{{url_for('loan_classification.loan_classification_total',id=loan_class_id)}}"  class="btn btn-primary">Classification Totals</a>
-
-                                            <a href="{{url_for('loan_classification.top_loans',id=loan_class_id)}}"  class="btn btn-primary">Top 20 loans</a>
-
-                                            <!-- <a class="btn btn-primary">Staff Loans</a> -->
-
-                                            <!-- <a class="btn btn-primary" href="{{url_for('loan_classification.classification_advances',id=loan_class_id)}}">Advances</a> -->
-
-
-                                            <!-- <button class="btn btn-primary mr-2">Upload</button>
-                                            <button class="btn btn-primary">Process</button> -->
-                                        </div>
-                                    </div>
+                                    <h5 class="card-title fw-semibold mb-4">Loan Classifications </h5>
                                     <div class="table-responsive">
-                                        <table class="table table-auto text-nowrap mb-0 align-middle">
+                                        <table class="table text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">
                                                 <tr>
-                                                    <th class="border-bottom-0 col">
+                                                    <th class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0">#</h6>
                                                     </th>
-                                                    <th class="border-bottom-0 col">
-                                                        <h6 class="fw-semibold mb-0">Bank branch</h6>
+                                                    <th class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0">Loan Classification Date</h6>
                                                     </th>
-                                                    <!-- <th class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">
-                                                        </h6>
-                                                    </th> -->
-                                                    <th class="border-bottom-0 col">
+                                                  
+                                                    <th class="border-bottom-0">
                                                         <h6 class="fw-semibold mb-0"></h6>
                                                     </th>
                                                 </tr>
                                             </thead>
+                                            
                                             <tbody>
-                                                {% for classification in loan_class_uploads %}
+                                                {% for classification in loan_classes %}
                                                 <tr>
                                                     <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-0">{{ loop.index }}</h6>
+                                                        <h6 class="fw-semibold mb-0">{{ classification.id }}</h6>
                                                     </td>
                                                     <td class="border-bottom-0">
-                                                        <h6 class="fw-semibold mb-1">{{ classification.branch_name }}</h6>
-                                                        <!-- <span class="fw-normal">{{ classification.date }}</span> -->
+                                                        <h6 class="fw-semibold mb-1">{{ classification.loan_classification_name }}</h6>
                                                     </td>
+                                                  
                                                     <td class="border-bottom-0">
-                                                        <a class="btn btn-primary">View Record</a>
-                                                        <a class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-
+                                                        <a href="{{ url_for('loan_classification.loan_classification_uploads', id=classification.id ) }}" class="btn btn-primary">Files</a>
+                                                        <a href="{{ url_for('loan_classification.delete_loan_classification', id=classification.id )}}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                                     </td>
-                                                    
-                
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
+
 
                 </div>
 
@@ -279,7 +244,23 @@
     <!-- Add this script after your HTML content -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
+
+    <!-- <script>
+        // Generate years dynamically for the select dropdown
+        let currentYear = new Date().getFullYear();
+        let startYear = currentYear - 10;  // Let's say 10 years before current year
+        let endYear = currentYear + 10;    // 10 years after current year
+        
+        let yearDropdown = document.getElementById("loanClassYear");
     
+        for(let i = startYear; i <= endYear; i++) {
+            let option = document.createElement("option");
+            option.value = i;
+            option.text = i;
+            yearDropdown.appendChild(option);
+        }
+    </script> -->
+
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

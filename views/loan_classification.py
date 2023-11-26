@@ -213,8 +213,6 @@ def top_loans(id):
     # Select the top 20 loans from the combined list
     top_20_combined_loans = combined_loans_sorted[:20]
 
-    print(top_20_combined_loans)
-
     return render_template('top_loans.html',id=id,top_loans=top_loans,top_20_overall_loans=top_20_combined_loans)
 
 
@@ -371,8 +369,12 @@ def delete_loan_classification(id):
 
 @bp.route('/classification_advances/<int:id>')
 def classification_advances(id):
-    
+
     return render_template('advances.html',id=id,)
+
+
+
+
 
 
 

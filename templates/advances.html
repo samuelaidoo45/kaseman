@@ -122,8 +122,7 @@
                                     <h5 class="card-title fw-semibold mb-4">Classification of advances</h5>
                                 </div>
                                 <div>
-                                    <a href="{{ url_for('loan_classification.loan_classification_uploads', id=id )}}"
-                                        class="btn btn-primary">Back</a>
+                                    <a href="{{ url_for('returns.advances_main')}}" class="btn btn-primary">Back</a>
 
                                     <!-- <button class="btn btn-primary mr-2">Upload</button>
                                     <button class="btn btn-primary">Process</button> -->
@@ -137,7 +136,7 @@
 
                                     <!-- Iterate through each branch in the data -->
                                     <!-- <h2>{{ branch_name }}</h2> -->
-                                             
+
                                     <div class="d-flex justify-content-between">
                                         <div>
                                             <h2 class="card-title fw-semibold mb-4"> </h2>
@@ -162,15 +161,30 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                {% for key, values in advances_classification.items() %}
+                                                <tr>
+                                                    <td>{{ key.replace('_', ' ').capitalize() }}</td>
+                                                    {% for value in values.values() %}
+                                                        {% if key == 'Provided Required'  %}
+                                                        <td>{{ "{}%".format(value|float|int) if value else '' }}</td>
+                                                        {% else %}
+                                                            <td>{{ "{:,.2f}".format(value) if value else '' }}</td>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <!-- Calculate total for each row -->
+                                                    <td></td>
+                                                </tr>
+                                                {% endfor %}
 
-                                               
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    
+
                                                 </tr>
                                             </tfoot>
                                         </table>
+
+
                                     </div>
                                     <br>
 
