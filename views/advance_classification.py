@@ -48,7 +48,10 @@ def preprocess_data(data):
         for sub_key, value in sub_dict.items():
             if value:
                 # Remove commas and non-numeric characters except decimal point
-                clean_value = value.replace(',', '').replace('%', '')
+                if isinstance(value, float):
+                    clean_value = value
+                else:
+                    clean_value = value.replace(',', '').replace('%', '')
                 try:
                     num_value = float(clean_value)
                 except ValueError:
@@ -75,7 +78,7 @@ def create_advance_classification():
     advances_classification = {
         "previous": classification_total(previousMonth)[0],
         "new_advance": {'Current (Up to 30 days)':'','OLEM (31 to 90 days)':'','SUB-STAND (91 to 180 days)':'','DOUTFUL (181 to 360 days)':'','LOSS (Over 360 days)':''},
-        "qrt_int_charged": {'Current (Up to 30 days)':'','OLEM (31 to 90 days)':'','SUB-STAND (91 to 180 days)':'','DOUTFUL (181 to 360 days)':'','LOSS (Over 360 days)':''},
+        "qrt_int_charged": quaterly_interest_charge(currentMonth),#{'Current (Up to 30 days)':'','OLEM (31 to 90 days)':'','SUB-STAND (91 to 180 days)':'','DOUTFUL (181 to 360 days)':'','LOSS (Over 360 days)':''},
         "less_amount_written_off":{'Current (Up to 30 days)':'','OLEM (31 to 90 days)':'','SUB-STAND (91 to 180 days)':'','DOUTFUL (181 to 360 days)':'','LOSS (Over 360 days)':''},
         "less_amount_recovered":{'Current (Up to 30 days)':'','OLEM (31 to 90 days)':'','SUB-STAND (91 to 180 days)':'','DOUTFUL (181 to 360 days)':'','LOSS (Over 360 days)':''},
         "changes_in_classification":{'Current (Up to 30 days)':'','OLEM (31 to 90 days)':'','SUB-STAND (91 to 180 days)':'','DOUTFUL (181 to 360 days)':'','LOSS (Over 360 days)':''},
@@ -86,7 +89,8 @@ def create_advance_classification():
         "amount_provided":classification_total(currentMonth)[1]
     }
 
-    # print(advances_classification)
+    print(quaterly_interest_charge(currentMonth))
+
     processed_data = preprocess_data(advances_classification)
 
     return render_template('advances.html',advances_classification=processed_data)
@@ -232,5 +236,38 @@ def classification_total(id):
     return [formatted_totals,percent_totals]
 
 def quaterly_interest_charge(id):
-    return ''    
+    loan_classification_uploads = LoanClassificationFiles.query.filter_by(loan_class_id=id).all()
+
+    qrt_int_charged = {
+        'Current (Up to 30 days)': 0.0,
+        'OLEM (31 to 90 days)': 0.0,
+        'SUB-STAND (91 to 180 days)': 0.0,
+        'DOUTFUL (181 to 360 days)': 0.0,
+        'LOSS (Over 360 days)': 0.0
+    }
+
+    for classification in loan_classification_uploads:
+
+        loan_classification_items = LoanClassificationItems.query.filter_by(loan_class_file_id=classification.id).all()
+
+        for item in loan_classification_items:
+            if item.principal is not None:
+                principal = float(item.principal.replace(',', ''))  # Convert to float
+            else:
+                principal = 0
+
+            if item.interest_rate is not None:
+                interest_rate = float(item.interest_rate.replace(',', ''))  # Convert to float
+            else:
+                interest_rate = 0
+
+            qrt_charge = (principal * (interest_rate/100) * (1/4))
+
+            loan_classification = classify_loan(item.maturity_date)
+
+            print(loan_classification)
+            # Assuming classify_loan function and qrt_int_charged dictionary are defined correctly
+            qrt_int_charged[loan_classification] += qrt_charge
+
+    return  qrt_int_charged
 

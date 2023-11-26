@@ -15,6 +15,7 @@ class LoanClassificationItems(db.Model):
     first_pay_date = db.Column(db.String(100), nullable=True)
     maturity_date = db.Column(db.String(100), nullable=True)
     term = db.Column(db.String(100), nullable=True)
+    interest_rate = db.Column(db.String(100), nullable=True)
     ccy = db.Column(db.String(100), nullable=True)
     commitment = db.Column(db.String(100), nullable=True)
     principal = db.Column(db.String(100), nullable=True)

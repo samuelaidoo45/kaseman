@@ -95,6 +95,8 @@ def loan_file_upload(id):
             item["overdue"] = row['Overdue']
         if 'Status' in dataframe.columns:
             item["status"] = row['Status']
+        if 'Interest Rate' in dataframe.columns:
+            item['interest_rate'] = row['Interest Rate']
 
         loanClassificationItems.append(item)
 
