@@ -2,7 +2,7 @@ import os
 import subprocess
 
 # Replace the path with your virtual environment activation script path
-virtualenv_activation_script = "/home/tivateo2/virtualenv/app.tivateonline.com/loanreport/myenv/bin/activate"
+virtualenv_activation_script = "/home/tivateo2/app.tivateonline.com/loanreport/myenv/bin/activate"
 
 # Replace the path with your desired directory
 target_directory = "/home/tivateo2/app.tivateonline.com/loanreport"
