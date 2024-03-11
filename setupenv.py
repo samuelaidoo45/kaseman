@@ -14,7 +14,7 @@ def create_flask_app(app_name):
     os.chdir(app_name)
 
     # Step 3: Create a virtual environment
-    subprocess.run([sys.executable, "-m", "venv", "venv"], check=True)
+    # subprocess.run([sys.executable, "-m", "venv", "venv"], check=True)
 
     # Step 4: Activate the virtual environment
     activate_script = "myenv\\Scripts\\activate" if sys.platform == "win32" else "myenv/bin/activate"
