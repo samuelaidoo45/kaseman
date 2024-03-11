@@ -1,18 +1,15 @@
-import os
 import subprocess
 
-# Replace the path with your virtual environment activation script path
-virtualenv_activation_script = "/home/tivateo2/app.tivateonline.com/loanreport/myenv/bin/activate"
-
-# Replace the path with your desired directory
-target_directory = "/home/tivateo2/app.tivateonline.com/loanreport"
-
-def activate_virtualenv_and_change_directory(virtualenv_activation_script, target_directory):
-    # Activate the virtual environment
-    activate_command = f"source {virtualenv_activation_script} && cd {target_directory}"
-    
-    # Run the activation commands using subprocess
-    subprocess.run(activate_command, shell=True)
+def run_passenger(app_script, port=3000):
+    try:
+        # Use subprocess to run the app.py script with the built-in Python HTTP server
+        subprocess.run(["python", "-m", "http.server", str(port)], check=True, cwd=app_script)
+    except subprocess.CalledProcessError as e:
+        print(f"Error running app.py: {e}")
 
 if __name__ == "__main__":
-    activate_virtualenv_and_change_directory(virtualenv_activation_script, target_directory)
+    # Replace with the actual path to your app.py script
+    app_script_path = "run.py"
+
+    # Specify the port (optional, defaults to 3000)
+    run_passenger(app_script_path, port=8000)
