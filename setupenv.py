@@ -9,7 +9,7 @@ def run_passenger(app_script, port=3000):
 
 if __name__ == "__main__":
     # Replace with the actual path to your app.py script
-    app_script_path = "run.py"
+    app_script_path = "./run.py"
 
     # Specify the port (optional, defaults to 3000)
     run_passenger(app_script_path, port=8000)
