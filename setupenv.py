@@ -12,8 +12,8 @@ def run_passenger(port=3000):
         activate_command = f'source {activate_script}' if os.name == 'posix' else f'. {activate_script}'
         subprocess.run(activate_command, shell=True, check=True)
 
-        # Install Flask (if needed, you can skip this step if Flask is already installed in your 'myenv')
-        subprocess.run(['pip', 'install', 'flask'], check=True)
+        # Install required packages, including Flask and Flask-Migrate
+        subprocess.run(['pip', 'install', '-r', 'requirements.txt'], check=True)
 
         # Run the run.py script with "python run.py"
         subprocess.run(['python', 'run.py', str(port)], check=True, cwd=script_directory)
