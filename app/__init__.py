@@ -11,7 +11,7 @@ def create_app():
 
     db.init_app(app)
     
-    migrate = Migrate(app,db)
+    Migrate(app,db)
 
     app.register_blueprint(main_views.bp)
     app.register_blueprint(loan_classification.bp)
